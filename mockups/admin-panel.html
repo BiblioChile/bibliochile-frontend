@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .catalog-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .catalog-item { background: var(--surface); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .catalog-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+    .catalog-meta { font-size: 0.68rem; color: var(--ivory-dim); margin-top: 0.1rem; }
+    .catalog-actions { display: flex; gap: 0.4rem; }
+    .qr-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .qr-item { background: var(--surface); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .qr-station { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+    .qr-book { font-size: 0.68rem; color: var(--ivory-dim); margin-top: 0.1rem; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+    <div class="top-bar-role">ADMINISTRADOR</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">Catálogo</div>
+    <div class="tab">Códigos QR</div>
+    <div class="tab">Métricas</div>
+  </div>
+
+  <main class="page-main">
+    <div class="section">
+      <div class="text-section">Obras en catálogo</div>
+      <div class="catalog-list">
+        <div class="catalog-item">
+          <div><div class="catalog-title">Altazor</div><div class="catalog-meta">V. Huidobro · Poesía · Gratis</div></div>
+          <div class="catalog-actions"><button class="btn-sm">Editar</button><button class="btn-sm danger">Quitar</button></div>
+        </div>
+        <div class="catalog-item">
+          <div><div class="catalog-title">El último tren del sur</div><div class="catalog-meta">J. Martínez · Novela · Suscripción</div></div>
+          <div class="catalog-actions"><button class="btn-sm">Editar</button><button class="btn-sm danger">Quitar</button></div>
+        </div>
+        <div class="catalog-item">
+          <div><div class="catalog-title">Sub Terra</div><div class="catalog-meta">B. Lillo · Cuento · Gratis</div></div>
+          <div class="catalog-actions"><button class="btn-sm">Editar</button><button class="btn-sm danger">Quitar</button></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:0.75rem">+ Agregar obra al catálogo</button>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Códigos QR por estación</div>
+      <div class="qr-list">
+        <div class="qr-item"><div><div class="qr-station">Estación Baquedano</div><div class="qr-book">Altazor — V. Huidobro</div></div><span class="badge badge-active">ACTIVO</span></div>
+        <div class="qr-item"><div><div class="qr-station">Estación U. de Chile</div><div class="qr-book">Poema 20 — P. Neruda</div></div><span class="badge badge-active">ACTIVO</span></div>
+        <div class="qr-item"><div><div class="qr-station">Estación Tobalaba</div><div class="qr-book">Sub Terra — B. Lillo</div></div><span class="badge badge-pending">INACTIVO</span></div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:0.75rem">+ Generar nuevo código QR</button>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Log de acciones</div>
+      <div class="log-card">
+        <div class="log-header">Registro de actividad administrativa</div>
+        <div class="log-row"><div class="log-key">QR Tobalaba desactivado</div><div class="log-val">admin · 2026-07-10 08:30</div></div>
+        <div class="log-row"><div class="log-key">Obra agregada al catálogo</div><div class="log-val">admin · 2026-07-09 14:22</div></div>
+        <div class="log-row"><div class="log-key">Autor aprobado: J. Martínez</div><div class="log-val">admin · 2026-07-08 11:05</div></div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active">Panel</div>
+    <div class="nav-item">Usuarios</div>
+    <div class="nav-item">Autores</div>
+    <div class="nav-item">Config</div>
+  </nav>
+</body>
+</html>

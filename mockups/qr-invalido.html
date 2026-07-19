@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — QR Inválido</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .error-wrapper { flex: 1; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; align-items: center; justify-content: center; }
+    .error-card {
+      background: rgba(123,16,35,0.12);
+      border: 1.5px solid rgba(123,16,35,0.35);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1rem; text-align: center;
+    }
+    .error-icon { width: 56px; height: 56px; background: rgba(123,16,35,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .error-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; }
+    .btn-wrapper { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+  </div>
+
+  <div class="error-wrapper">
+    <div class="error-card">
+      <div class="error-icon">✕</div>
+      <div class="error-title">Código QR inválido</div>
+      <p class="text-small" style="text-align:center;line-height:1.6">El código QR escaneado no corresponde a ninguna estación registrada o se encuentra inactivo. Por favor intenta con otro código o explora el catálogo directamente.</p>
+    </div>
+
+    <div class="log-card" style="width:100%">
+      <div class="log-header">Registro de escaneo</div>
+      <div class="log-row"><div class="log-key">Código QR</div><div class="log-val">QR-BCH-2024-ERR</div></div>
+      <div class="log-row"><div class="log-key">Estación</div><div class="log-val">No identificada</div></div>
+      <div class="log-row"><div class="log-key">Timestamp</div><div class="log-val">2026-07-10 08:42:13</div></div>
+      <div class="log-row"><div class="log-key">Estado</div><span class="badge badge-rejected">INVÁLIDO</span></div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button class="btn btn-primary">Explorar catálogo</button>
+      <button class="btn btn-secondary">Volver al inicio</button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Inicio</div>
+    <div class="nav-item">Catálogo</div>
+    <div class="nav-item">Biblioteca</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Mi Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .subs-card { background: var(--wine); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+    .subs-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .subs-detail { font-size: 0.72rem; color: rgba(247,244,236,0.75); margin-top: 0.2rem; }
+    .progress-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .progress-item { background: var(--surface); border-radius: var(--radius-lg); padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.85rem; }
+    .book-thumb { width: 40px; height: 52px; border-radius: 6px; flex-shrink: 0; }
+    .book-thumb.wine { background: var(--wine); }
+    .book-thumb.surface { background: var(--bg); }
+    .progress-details { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
+    .progress-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+    .bar-label { font-size: 0.68rem; color: var(--ivory-dim); text-align: right; }
+    .history-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .history-item { background: var(--surface); border-radius: var(--radius-md); padding: 0.7rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .history-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; }
+    .history-author { font-size: 0.68rem; color: var(--ivory-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="#">Inicio</a><a href="#">Buscar</a><a href="#">Mi Lista</a><a href="#">Perfil</a>
+  </nav>
+
+  <main class="page-main">
+    <div class="text-title">Mi Dashboard</div>
+
+    <div class="section">
+      <div class="text-section">Suscripción activa</div>
+      <div class="subs-card">
+        <div><div class="subs-name">Plan Mensual</div><div class="subs-detail">Vence el 31 de julio 2026 · 3 libros restantes</div></div>
+        <span class="badge badge-wine">ACTIVA</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Continuar leyendo</div>
+      <div class="progress-list">
+        <div class="progress-item">
+          <div class="book-thumb wine"></div>
+          <div class="progress-details">
+            <div class="progress-title">Canto General</div>
+            <div class="text-small">Pablo Neruda</div>
+            <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
+            <div class="bar-label">40%</div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="book-thumb surface"></div>
+          <div class="progress-details">
+            <div class="progress-title">Altazor</div>
+            <div class="text-small">Vicente Huidobro</div>
+            <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
+            <div class="bar-label">72%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Historial de lectura</div>
+      <div class="history-list">
+        <div class="history-item">
+          <div><div class="history-title">Sub Terra</div><div class="history-author">Baldomero Lillo</div></div>
+          <div class="text-micro">Jun 2026</div>
+        </div>
+        <div class="history-item">
+          <div><div class="history-title">Poema 20</div><div class="history-author">Pablo Neruda</div></div>
+          <div class="text-micro">May 2026</div>
+        </div>
+        <div class="history-item">
+          <div><div class="history-title">La Araucana</div><div class="history-author">Alonso de Ercilla</div></div>
+          <div class="text-micro">Abr 2026</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active">Inicio</div>
+    <div class="nav-item">Catálogo</div>
+    <div class="nav-item">Biblioteca</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

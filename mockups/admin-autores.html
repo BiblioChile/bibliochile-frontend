@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Aprobar Autores</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .authors-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .author-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .author-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .author-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+    .author-rut { font-size: 0.7rem; color: var(--ivory-dim); margin-top: 0.1rem; }
+    .author-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+    .meta-row { display: flex; justify-content: space-between; }
+    .dj-note { background: rgba(247,244,236,0.05); border-radius: var(--radius-sm); padding: 0.6rem 0.75rem; font-size: 0.68rem; color: var(--ivory-dim); font-style: italic; }
+    .author-actions { display: flex; gap: 0.5rem; }
+    .history-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .history-item { background: var(--surface); border-radius: var(--radius-md); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .history-name { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+    <div class="top-bar-role">ADMINISTRADOR</div>
+  </div>
+
+  <main class="page-main">
+    <div class="text-title">Aprobar autores</div>
+
+    <div class="section">
+      <div class="text-section">Solicitudes pendientes (2)</div>
+      <div class="authors-list">
+        <div class="author-card">
+          <div class="author-header">
+            <div><div class="author-name">Valentina Reyes Mora</div><div class="author-rut">RUT: 16.234.567-8</div></div>
+            <span class="badge badge-pending">PENDIENTE</span>
+          </div>
+          <div class="author-meta">
+            <div class="meta-row"><div class="text-small">Correo</div><div class="text-small" style="color:var(--ivory)">v.reyes@correo.cl</div></div>
+            <div class="meta-row"><div class="text-small">Solicitud</div><div class="text-small" style="color:var(--ivory)">2026-07-09 15:42</div></div>
+          </div>
+          <div class="dj-note">Declaración jurada firmada digitalmente el 2026-07-09 15:40</div>
+          <div class="author-actions">
+            <button class="btn-sm approve">✓ Aprobar</button>
+            <button class="btn-sm danger">✕ Rechazar</button>
+          </div>
+        </div>
+
+        <div class="author-card">
+          <div class="author-header">
+            <div><div class="author-name">Rodrigo Fuentes Díaz</div><div class="author-rut">RUT: 14.876.543-2</div></div>
+            <span class="badge badge-pending">PENDIENTE</span>
+          </div>
+          <div class="author-meta">
+            <div class="meta-row"><div class="text-small">Correo</div><div class="text-small" style="color:var(--ivory)">r.fuentes@mail.com</div></div>
+            <div class="meta-row"><div class="text-small">Solicitud</div><div class="text-small" style="color:var(--ivory)">2026-07-08 10:15</div></div>
+          </div>
+          <div class="dj-note">Declaración jurada firmada digitalmente el 2026-07-08 10:12</div>
+          <div class="author-actions">
+            <button class="btn-sm approve">✓ Aprobar</button>
+            <button class="btn-sm danger">✕ Rechazar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Historial de decisiones</div>
+      <div class="history-list">
+        <div class="history-item"><div><div class="history-name">Jorge Martínez Silva</div><div class="text-micro">2026-07-08 11:05</div></div><span class="badge badge-active">APROBADO</span></div>
+        <div class="history-item"><div><div class="history-name">Ana Cifuentes López</div><div class="text-micro">2026-07-05 09:30</div></div><span class="badge badge-rejected">RECHAZADO</span></div>
+        <div class="history-item"><div><div class="history-name">Pedro Soto Araya</div><div class="text-micro">2026-07-01 14:22</div></div><span class="badge badge-active">APROBADO</span></div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Panel</div>
+    <div class="nav-item">Usuarios</div>
+    <div class="nav-item active">Autores</div>
+    <div class="nav-item">Config</div>
+  </nav>
+</body>
+</html>

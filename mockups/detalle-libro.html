@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Detalle libro</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .back-bar { padding: 1rem 1.25rem; font-size: 0.8rem; color: var(--ivory-dim); cursor: pointer; }
+    .cover-section { display: flex; flex-direction: column; align-items: center; padding: 0 1.25rem 1.5rem; gap: 1rem; }
+    .cover-img { width: 150px; height: 210px; background: var(--wine); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .cover-info { text-align: center; }
+    .book-title { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; line-height: 1.2; }
+    .book-author { font-size: 0.82rem; color: var(--ivory-dim); margin-top: 0.3rem; }
+    .badges { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.6rem; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .meta-item { background: var(--surface); border-radius: var(--radius-md); padding: 0.75rem; }
+    .meta-key { font-size: 0.65rem; color: var(--ivory-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-val { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-top: 0.2rem; }
+  </style>
+</head>
+<body>
+  <div class="back-bar">← Volver al catálogo</div>
+
+  <div class="cover-section">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+      <div class="book-title">Altazor</div>
+      <div class="book-author">Vicente Huidobro</div>
+      <div class="badges">
+        <span class="badge badge-free">GRATIS</span>
+        <span class="badge badge-pending">Poesía</span>
+        <span class="badge badge-pending">Vanguardia</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <div class="section">
+      <div class="text-section">Descripción</div>
+      <p class="text-body" style="color:rgba(247,244,236,0.85)">Altazor, o el viaje en paracaídas es el poema más ambicioso de Vicente Huidobro. Escrito entre 1919 y 1931, narra el descenso de un ser que cae desde las alturas del universo mientras reflexiona sobre el lenguaje, la poesía y la existencia humana.</p>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Información</div>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-key">Año</div><div class="meta-val">1931</div></div>
+        <div class="meta-item"><div class="meta-key">Páginas</div><div class="meta-val">120</div></div>
+        <div class="meta-item"><div class="meta-key">Idioma</div><div class="meta-val">Español</div></div>
+        <div class="meta-item"><div class="meta-key">Fuente</div><div class="meta-val">Dominio público</div></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary">Comenzar a leer</button>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Inicio</div>
+    <div class="nav-item">Catálogo</div>
+    <div class="nav-item">Biblioteca</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

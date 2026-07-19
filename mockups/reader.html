@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Lector</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
+  <style>
+    .header { display: flex; flex-direction: column; align-items: center; padding: 2rem 1.5rem 0.75rem; gap: 0.4rem; }
+    .logo-text { font-family: var(--font-display); font-size: 1.9rem; font-weight: 600; }
+    .book-title { font-size: 0.9rem; color: var(--ivory-dim); letter-spacing: 0.04em; }
+    .qr-indicator {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 0.5rem 1rem;
+      margin: 0 1.5rem 0.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem; color: var(--gold);
+    }
+    .qr-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    .content { flex: 1; padding: 1rem 1.75rem 0; overflow-y: auto; }
+    .content p {
+      font-family: 'Courier Prime', 'Courier New', monospace;
+      font-size: 1rem; line-height: 1.9;
+      margin-bottom: 1.4rem; text-align: justify;
+    }
+    .progress-section { padding: 1.25rem 1.75rem 0.5rem; }
+    .progress-label { display: flex; justify-content: center; margin-top: 0.5rem; font-size: 0.75rem; color: var(--ivory-dim); letter-spacing: 0.06em; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-text">BiblioChile</div>
+    <div class="book-title">Poema 20 — Pablo Neruda</div>
+  </header>
+
+  <div class="qr-indicator">
+    <div class="qr-dot"></div>
+    Acceso vía QR · Estación Baquedano · 2026-07-10 08:42
+  </div>
+
+  <main class="content">
+    <p>Puedo escribir los versos más tristes esta noche.</p>
+    <p>Escribir, por ejemplo: 'La noche está estrellada, y tiritan, azules, los astros, a lo lejos.'</p>
+    <p>El viento de la noche gira en el cielo y canta.</p>
+    <p>Puedo escribir los versos más tristes esta noche. Yo la quise, y a veces ella también me quiso.</p>
+    <p>En las noches como ésta la tuve entre mis brazos. La besé tantas veces bajo el cielo infinito.</p>
+    <p>Ella me quiso, a veces yo también la quería. Cómo no haber amado sus grandes ojos fijos.</p>
+  </main>
+
+  <div class="progress-section">
+    <div class="progress-track">
+      <div class="progress-fill-wine" style="width:38%"></div>
+    </div>
+    <div class="progress-label">38% — Cap. 3 de 12</div>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Inicio</div>
+    <div class="nav-item">Catálogo</div>
+    <div class="nav-item active">Biblioteca</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

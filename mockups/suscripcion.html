@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Suscripción</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .status-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .status-row { display: flex; justify-content: space-between; align-items: center; }
+    .status-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; }
+    .books-label { font-size: 0.72rem; color: var(--ivory-dim); }
+    .plans-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .plan-card {
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      border: 1.5px solid rgba(247,244,236,0.15);
+      display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    }
+    .plan-card.selected { border-color: var(--wine); background: rgba(123,16,35,0.1); }
+    .plan-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .plan-detail { font-size: 0.72rem; color: var(--ivory-dim); margin-top: 0.2rem; }
+    .plan-price { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
+    .plan-price span { font-family: var(--font-ui); font-size: 0.68rem; color: var(--ivory-dim); }
+    .disclaimer { font-size: 0.68rem; color: var(--ivory-dim); text-align: center; }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="#">Inicio</a><a href="#">Buscar</a><a href="#">Mi Lista</a><a href="#">Perfil</a>
+  </nav>
+
+  <main class="page-main">
+    <div class="text-title">Suscripción</div>
+
+    <div class="section">
+      <div class="text-section">Estado actual</div>
+      <div class="status-card">
+        <div class="status-row">
+          <div class="status-name">Plan Mensual</div>
+          <span class="badge badge-wine">ACTIVA</span>
+        </div>
+        <div class="text-small">Vence el 31 de julio de 2026</div>
+        <div class="books-label">Libros usados: 2 de 5</div>
+        <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Cambiar plan</div>
+      <div class="plans-list">
+        <div class="plan-card selected">
+          <div><div class="plan-name">Plan Mensual</div><div class="plan-detail">Hasta 5 libros · 30 días</div></div>
+          <div class="plan-price">$3.990 <span>/mes</span></div>
+        </div>
+        <div class="plan-card">
+          <div><div class="plan-name">Plan Anual</div><div class="plan-detail">Hasta 8 libros · 365 días</div></div>
+          <div class="plan-price">$35.990 <span>/año</span></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary">Simular pago</button>
+    <button class="btn btn-secondary">Cancelar suscripción</button>
+    <div class="disclaimer">Los pagos son simulados. No se realizará ningún cobro real.</div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Inicio</div>
+    <div class="nav-item">Catálogo</div>
+    <div class="nav-item">Biblioteca</div>
+    <div class="nav-item active">Perfil</div>
+  </nav>
+</body>
+</html>

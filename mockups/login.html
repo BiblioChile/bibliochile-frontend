@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Iniciar sesión</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .top-section { padding: 3.5rem 2rem 2rem; flex-shrink: 0; }
+    .page-title { font-family: var(--font-display); font-size: 3rem; font-weight: 400; font-style: italic; line-height: 1.15; }
+    .page-subtitle { font-size: 0.8rem; color: var(--ivory-dim); margin-top: 0.5rem; letter-spacing: 0.04em; }
+    .form-card {
+      background: var(--ivory);
+      border-radius: 28px 28px 0 0;
+      flex: 1; padding: 2.5rem 2rem 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      position: relative; overflow: hidden;
+    }
+    .mountain-decoration {
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; pointer-events: none; z-index: 0; opacity: 0.12;
+    }
+    .field-label-light { font-size: 0.72rem; font-weight: 500; color: #4a4a6a; letter-spacing: 0.05em; text-transform: uppercase; }
+    .forgot { text-align: center; font-size: 0.78rem; color: var(--wine); cursor: pointer; font-weight: 500; }
+    .btn-primary-light {
+      width: 100%; padding: 1rem;
+      background: var(--wine); color: var(--ivory);
+      border: none; border-radius: var(--radius-md);
+      font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600;
+      letter-spacing: 0.05em; cursor: pointer; position: relative; z-index: 1;
+    }
+    .divider { display: flex; align-items: center; gap: 0.75rem; }
+    .divider-line { flex: 1; height: 1px; background: #d0ccc4; }
+    .register-row { text-align: center; font-size: 0.82rem; color: #4a4a6a; position: relative; z-index: 1; }
+    .register-link { color: var(--wine); font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="top-section">
+    <h1 class="page-title">Bienvenido a BiblioChile</h1>
+    <p class="page-subtitle">Inicia sesión para continuar leyendo</p>
+  </div>
+
+  <div class="form-card">
+    <svg class="mountain-decoration" viewBox="0 0 430 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,200 80,80 160,140 240,60 320,120 430,40 430,200" fill="#102a43"/>
+    </svg>
+
+    <div class="field-group" style="position:relative;z-index:1">
+      <label class="field-label-light">Correo electrónico</label>
+      <input class="field-input-light" type="email" placeholder="tu@correo.com" />
+    </div>
+    <div class="field-group" style="position:relative;z-index:1">
+      <label class="field-label-light">Contraseña</label>
+      <input class="field-input-light" type="password" placeholder="••••••••" />
+    </div>
+    <a class="forgot">¿Olvidaste tu contraseña?</a>
+    <button class="btn-primary-light">Iniciar Sesión</button>
+    <div class="divider"><div class="divider-line"></div><div class="divider-line"></div></div>
+    <div class="register-row">¿No tienes cuenta? <a class="register-link">Regístrate</a></div>
+  </div>
+</body>
+</html>

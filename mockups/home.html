@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Inicio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hero {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem 0 0;
+      overflow: hidden;
+      min-height: 160px;
+    }
+    .hero-vegetation {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+    .logo-card {
+      background: var(--ivory);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .logo-card-text {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--bg);
+    }
+    .logo-card-text span { color: var(--wine); }
+    .logo-card-tagline {
+      font-size: 0.52rem;
+      color: #666;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .books-row {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+    .books-row::-webkit-scrollbar { display: none; }
+    .book-card {
+      flex-shrink: 0;
+      width: 130px;
+      height: 190px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .book-card-cover {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.75rem;
+    }
+    .book-card-cover.wine { background: var(--wine); }
+    .book-card-cover.surface { background: var(--surface); }
+    .book-card-cover.wine-dark { background: var(--wine-hover); }
+    .book-card-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; color: var(--ivory); line-height: 1.2; }
+    .book-card-author { font-size: 0.68rem; color: rgba(247,244,236,0.7); }
+    .continue-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+    }
+    .continue-cover { width: 44px; height: 58px; background: var(--wine); border-radius: 6px; flex-shrink: 0; }
+    .continue-info { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
+    .continue-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+    .continue-author { font-size: 0.72rem; color: var(--ivory-dim); }
+    .progress-mini-label { font-size: 0.68rem; color: var(--ivory-dim); text-align: right; }
+    .genre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .genre-btn {
+      padding: 1rem; border: none; border-radius: 10px;
+      font-family: var(--font-ui); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.04em; cursor: pointer;
+    }
+    .genre-btn.wine { background: var(--wine); color: var(--ivory); }
+    .genre-btn.surface { background: var(--surface); color: var(--ivory); }
+    .section-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; text-align: center; margin-bottom: 0.75rem; }
+    .bottom-mountains { width: 100%; margin-top: auto; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="#">Inicio</a>
+    <a href="#">Buscar</a>
+    <a href="#">Mi Lista</a>
+    <a href="#">Perfil</a>
+  </nav>
+
+  <div class="hero">
+    <svg class="hero-vegetation" viewBox="0 0 430 80" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="var(--ivory)" stroke-width="1" fill="none" opacity="0.2">
+        <line x1="20" y1="80" x2="20" y2="30"/><circle cx="20" cy="26" r="5"/>
+        <line x1="55" y1="80" x2="55" y2="20"/><circle cx="55" cy="16" r="4"/>
+        <line x1="90" y1="80" x2="90" y2="35"/><circle cx="90" cy="31" r="5"/>
+        <line x1="125" y1="80" x2="125" y2="22"/><circle cx="125" cy="17" r="4"/>
+        <line x1="160" y1="80" x2="160" y2="38"/><circle cx="160" cy="33" r="5"/>
+        <line x1="195" y1="80" x2="195" y2="18"/><circle cx="195" cy="13" r="4"/>
+        <line x1="230" y1="80" x2="230" y2="32"/><circle cx="230" cy="27" r="5"/>
+        <line x1="265" y1="80" x2="265" y2="24"/><circle cx="265" cy="19" r="4"/>
+        <line x1="300" y1="80" x2="300" y2="36"/><circle cx="300" cy="31" r="5"/>
+        <line x1="335" y1="80" x2="335" y2="20"/><circle cx="335" cy="15" r="4"/>
+        <line x1="370" y1="80" x2="370" y2="40"/><circle cx="370" cy="35" r="5"/>
+        <line x1="410" y1="80" x2="410" y2="28"/><circle cx="410" cy="23" r="4"/>
+      </g>
+    </svg>
+    <div class="logo-card">
+      <svg width="48" height="40" viewBox="0 0 48 40" fill="none">
+        <path d="M24 2 C24 2, 4 12, 4 26 C4 34, 12 38, 24 38 C36 38, 44 34, 44 26 C44 12, 24 2, 24 2Z" fill="none" stroke="var(--wine)" stroke-width="1.5"/>
+        <path d="M24 4 L24 36" stroke="var(--bg)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M10 16 C16 20, 20 22, 24 26 C28 22, 32 20, 38 16" stroke="var(--bg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="logo-card-text">biblio<span>Chile</span></div>
+      <div class="logo-card-tagline">Arrienda. Lee. Comparte.</div>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <input class="search-bar" type="text" placeholder="Buscar libros, autores..." />
+    <div class="chips">
+      <button class="chip active">Gratis</button>
+      <button class="chip">Suscripción</button>
+      <button class="chip">Populares</button>
+    </div>
+
+    <div>
+      <div class="section-title">Destacados</div>
+      <div class="books-row">
+        <div class="book-card"><div class="book-card-cover wine"><div><div class="book-card-title">Altazor</div><div class="book-card-author">V. Huidobro</div></div></div></div>
+        <div class="book-card"><div class="book-card-cover surface"><div><div class="book-card-title">Poema 20</div><div class="book-card-author">P. Neruda</div></div></div></div>
+        <div class="book-card"><div class="book-card-cover wine-dark"><div><div class="book-card-title">Sub Terra</div><div class="book-card-author">B. Lillo</div></div></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title" style="text-align:left; font-size:1.1rem;">Continuar leyendo</div>
+      <div class="continue-card">
+        <div class="continue-cover"></div>
+        <div class="continue-info">
+          <div class="continue-title">Canto General</div>
+          <div class="continue-author">Pablo Neruda</div>
+          <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
+          <div class="progress-mini-label">40%</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Explorar por género</div>
+      <div class="genre-grid">
+        <button class="genre-btn wine">Poesía</button>
+        <button class="genre-btn surface">Novela</button>
+        <button class="genre-btn surface">Cuento</button>
+        <button class="genre-btn wine">Ensayo</button>
+        <button class="genre-btn surface">Teatro</button>
+        <button class="genre-btn wine">Crónica</button>
+      </div>
+    </div>
+  </main>
+
+  <svg class="bottom-mountains" viewBox="0 0 430 60" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,60 60,20 120,40 180,10 260,35 340,12 430,28 430,60" fill="var(--ivory)" opacity="0.05"/>
+  </svg>
+</body>
+</html>

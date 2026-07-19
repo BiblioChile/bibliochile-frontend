@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Estadísticas Autor</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .obras-stats { display: flex; flex-direction: column; gap: 0.75rem; }
+    .obra-stat-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .obra-stat-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; }
+    .obra-stat-genre { font-size: 0.65rem; color: var(--ivory-dim); }
+    .obra-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; }
+    .obra-stat-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .access-denied { background: rgba(123,16,35,0.12); border: 1.5px solid rgba(123,16,35,0.3); border-radius: var(--radius-md); padding: 1rem; font-size: 0.78rem; color: var(--error); display: none; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+    <div class="top-bar-role">AUTOR NACIONAL</div>
+  </div>
+
+  <main class="page-main">
+    <div class="text-title">Mis estadísticas</div>
+
+    <div class="access-denied">✕ No tienes permiso para ver estas estadísticas. Solo puedes consultar estadísticas de tus propias obras.</div>
+
+    <div class="section">
+      <div class="text-section">Resumen general</div>
+      <div class="metrics-grid-3">
+        <div class="metric-card wine"><div class="metric-val">1.284</div><div class="metric-label">Lectores únicos</div></div>
+        <div class="metric-card"><div class="metric-val">24m</div><div class="metric-label">Tiempo promedio de lectura</div></div>
+        <div class="metric-card"><div class="metric-val">312</div><div class="metric-label">Lecturas vía suscripción</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text-section">Desglose por obra</div>
+      <div class="obras-stats">
+        <div class="obra-stat-card">
+          <div><div class="obra-stat-title">El último tren del sur</div><div class="obra-stat-genre">Narrativa · Novela</div></div>
+          <div class="obra-stat-grid">
+            <div class="obra-stat-item"><div class="metric-val-sm">842</div><div class="text-micro">Lectores</div></div>
+            <div class="obra-stat-item"><div class="metric-val-sm">31m</div><div class="text-micro">T. promedio</div></div>
+            <div class="obra-stat-item"><div class="metric-val-sm">198</div><div class="text-micro">Suscripciones</div></div>
+          </div>
+        </div>
+        <div class="obra-stat-card">
+          <div><div class="obra-stat-title">Fragmentos de sal</div><div class="obra-stat-genre">Poesía</div></div>
+          <div class="obra-stat-grid">
+            <div class="obra-stat-item"><div class="metric-val-sm">442</div><div class="text-micro">Lectores</div></div>
+            <div class="obra-stat-item"><div class="metric-val-sm">18m</div><div class="text-micro">T. promedio</div></div>
+            <div class="obra-stat-item"><div class="metric-val-sm">114</div><div class="text-micro">Suscripciones</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active">Dashboard</div>
+    <div class="nav-item">Mis obras</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

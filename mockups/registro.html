@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Registro</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .top-section { padding: 3rem 2rem 1.5rem; flex-shrink: 0; }
+    .page-title { font-family: var(--font-display); font-size: 2.8rem; font-weight: 400; font-style: italic; line-height: 1.15; }
+    .page-subtitle { font-size: 0.78rem; color: var(--ivory-dim); margin-top: 0.4rem; }
+    .form-card {
+      background: var(--ivory); border-radius: 28px 28px 0 0;
+      flex: 1; padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.85rem; overflow-y: auto;
+    }
+    .field-label-light { font-size: 0.68rem; font-weight: 600; color: #4a4a6a; letter-spacing: 0.06em; text-transform: uppercase; }
+    .role-selector { display: flex; gap: 0.5rem; }
+    .role-btn {
+      flex: 1; padding: 0.65rem; border-radius: var(--radius-sm);
+      border: 1.5px solid #d0ccc4; background: white;
+      font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600;
+      color: #4a4a6a; cursor: pointer; text-align: center;
+    }
+    .role-btn.active { background: var(--bg); color: var(--ivory); border-color: var(--bg); }
+    .migration-note {
+      background: #e8f4f8; border: 1.5px solid #b8d8e8;
+      border-radius: var(--radius-md); padding: 0.85rem 1rem;
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .migration-note-title { font-size: 0.7rem; font-weight: 700; color: var(--bg); text-transform: uppercase; letter-spacing: 0.06em; }
+    .migration-note-text { font-size: 0.72rem; color: #2a4a6a; line-height: 1.5; }
+    .btn-primary-light {
+      width: 100%; padding: 1rem;
+      background: var(--wine); color: var(--ivory);
+      border: none; border-radius: var(--radius-md);
+      font-family: var(--font-ui); font-size: 0.88rem; font-weight: 700; cursor: pointer;
+    }
+    .login-row { text-align: center; font-size: 0.8rem; color: #4a4a6a; }
+    .login-link { color: var(--wine); font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="top-section">
+    <h1 class="page-title">Crear cuenta</h1>
+    <p class="page-subtitle">Únete a BiblioChile y accede a la literatura nacional</p>
+  </div>
+
+  <div class="form-card">
+    <div class="field-group">
+      <label class="field-label-light">Nombre completo <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="text" placeholder="Tu nombre" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Correo electrónico <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="email" placeholder="tu@correo.com" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Contraseña <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="password" placeholder="Mínimo 8 caracteres" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Confirmar contraseña <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="password" placeholder="Repite tu contraseña" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Tipo de cuenta</label>
+      <div class="role-selector">
+        <div class="role-btn active">Lector</div>
+        <div class="role-btn">Autor Nacional</div>
+      </div>
+    </div>
+    <div class="migration-note">
+      <div class="migration-note-title">Tu progreso de lectura</div>
+      <div class="migration-note-text">Si leíste obras antes de crear tu cuenta, tu progreso guardado se transferirá automáticamente al registrarte.</div>
+    </div>
+    <button class="btn-primary-light">Crear cuenta</button>
+    <div class="login-row">¿Ya tienes cuenta? <span class="login-link">Inicia sesión</span></div>
+  </div>
+</body>
+</html>

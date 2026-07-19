@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Subir obra</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .upload-zone {
+      border: 2px dashed rgba(247,244,236,0.25); border-radius: var(--radius-lg);
+      padding: 2rem 1rem; display: flex; flex-direction: column;
+      align-items: center; gap: 0.75rem; text-align: center; cursor: pointer;
+    }
+    .upload-icon { font-size: 2rem; opacity: 0.6; }
+    .upload-formats { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; }
+    .format-badge { padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(247,244,236,0.1); font-size: 0.65rem; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; }
+    .validation-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .validation-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; }
+    .val-ok { color: var(--gold); }
+    .val-err { color: var(--error); }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+    <div class="top-bar-role">AUTOR NACIONAL</div>
+  </div>
+
+  <main class="page-main">
+    <div class="text-title">Subir obra</div>
+
+    <div class="field-group">
+      <label class="field-label">Título <span class="text-required">*</span></label>
+      <input class="field-input" type="text" placeholder="Título de tu obra" />
+    </div>
+    <div class="field-group">
+      <label class="field-label">Género <span class="text-required">*</span></label>
+      <select class="field-select">
+        <option>Selecciona un género</option>
+        <option>Poesía</option><option>Novela</option><option>Cuento</option>
+        <option>Ensayo</option><option>Teatro</option><option>Crónica</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Descripción</label>
+      <input class="field-input" type="text" placeholder="Breve sinopsis de la obra" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Archivo de la obra <span class="text-required">*</span></label>
+      <div class="upload-zone">
+        <div class="upload-icon">📄</div>
+        <div class="text-small">Arrastra tu archivo aquí o toca para seleccionar</div>
+        <div class="upload-formats">
+          <span class="format-badge">PDF</span>
+          <span class="format-badge">EPUB</span>
+          <span class="format-badge">TXT</span>
+        </div>
+      </div>
+      <div class="field-hint">Tamaño máximo: 10 MB</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Validaciones del archivo</label>
+      <div class="validation-list">
+        <div class="validation-item val-ok">✓ Formato permitido (PDF)</div>
+        <div class="validation-item val-ok">✓ Tamaño dentro del límite (2.4 MB de 10 MB)</div>
+        <div class="validation-item val-ok">✓ Perfil de autor aprobado</div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-header">Registro de carga</div>
+      <div class="log-row"><div class="log-key">Nombre</div><div class="log-val">obra_viaje_confin.pdf</div></div>
+      <div class="log-row"><div class="log-key">Formato</div><div class="log-val">PDF</div></div>
+      <div class="log-row"><div class="log-key">Tamaño</div><div class="log-val">2.4 MB</div></div>
+      <div class="log-row"><div class="log-key">Timestamp</div><div class="log-val">2026-07-10 09:15:42</div></div>
+    </div>
+
+    <button class="btn btn-primary">Enviar obra para revisión</button>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Dashboard</div>
+    <div class="nav-item active">Mis obras</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

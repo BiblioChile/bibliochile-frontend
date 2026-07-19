@@ -1,0 +1,297 @@
+/* ============================================
+   BiblioChile — Design System
+   Estilos compartidos para todos los mockups
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* ---- Tokens de diseño ---- */
+:root {
+  /* Colores */
+  --bg:           #102a43;   /* fondo principal */
+  --surface:      #1b3a5c;   /* cards, paneles sobre el fondo */
+  --wine:         #7b1023;   /* acento primario, botones, highlights */
+  --wine-hover:   #5e0c1a;   /* hover de botones wine */
+  --ivory:        #F7F4EC;   /* texto principal, elementos claros */
+  --ivory-dim:    rgba(247, 244, 236, 0.55); /* texto secundario */
+  --ivory-subtle: rgba(247, 244, 236, 0.08); /* fondos sutiles */
+  --gold:         #C9A96E;   /* acento dorado, badges de aprobado */
+  --error:        #e05070;   /* textos de error, rechazado */
+
+  /* Tipografías */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui:      'Montserrat', system-ui, sans-serif;
+
+  /* Radios */
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+  --radius-pill:  50px;
+
+  /* Espaciado base */
+  --gap-xs:  0.4rem;
+  --gap-sm:  0.65rem;
+  --gap-md:  1rem;
+  --gap-lg:  1.25rem;
+  --gap-xl:  1.5rem;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- Base ---- */
+body {
+  background-color: var(--bg);
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Tipografía ---- */
+.text-display    { font-family: var(--font-display); }
+.text-title      { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
+.text-subtitle   { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+.text-section    { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ivory-dim); }
+.text-body       { font-size: 0.85rem; line-height: 1.7; }
+.text-small      { font-size: 0.72rem; color: var(--ivory-dim); }
+.text-micro      { font-size: 0.65rem; color: var(--ivory-dim); }
+.text-wine       { color: var(--wine); }
+.text-gold       { color: var(--gold); }
+.text-error      { color: var(--error); }
+.text-required   { color: var(--wine); }
+
+/* ---- Layout helpers ---- */
+.page-main {
+  flex: 1;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+  overflow-y: auto;
+}
+
+.section { display: flex; flex-direction: column; gap: var(--gap-sm); }
+
+/* ---- Navegación superior (wine) ---- */
+.top-nav {
+  background: var(--wine);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.7rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.top-nav a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ivory);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+.top-nav a:hover { background: rgba(247,244,236,0.15); }
+
+/* Top bar con rol (admin/autor) */
+.top-bar {
+  background: var(--wine);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-bar-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--ivory); }
+.top-bar-role  { font-size: 0.68rem; color: rgba(247,244,236,0.7); letter-spacing: 0.06em; }
+
+/* ---- Navegación inferior ---- */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0 1.5rem;
+  border-top: 1px solid rgba(247,244,236,0.1);
+  flex-shrink: 0;
+}
+.nav-item { font-size: 0.72rem; color: var(--ivory-dim); cursor: pointer; padding: 0.2rem 0.5rem; }
+.nav-item.active { color: var(--ivory); font-weight: 600; }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+}
+.card-subtle {
+  background: var(--ivory-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+}
+.card-wine {
+  background: var(--wine);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+}
+
+/* ---- Botones ---- */
+.btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn-primary  { background: var(--wine); color: var(--ivory); }
+.btn-primary:hover { background: var(--wine-hover); }
+.btn-secondary {
+  background: transparent;
+  color: var(--ivory-dim);
+  border: 1.5px solid rgba(247,244,236,0.2);
+}
+.btn-secondary:hover { border-color: rgba(247,244,236,0.4); }
+.btn-sm {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1.5px solid rgba(247,244,236,0.2);
+  background: transparent;
+  color: var(--ivory-dim);
+}
+.btn-sm.approve { background: rgba(201,169,110,0.15); color: var(--gold); border-color: rgba(201,169,110,0.3); }
+.btn-sm.danger  { background: rgba(123,16,35,0.2); color: var(--error); border-color: rgba(123,16,35,0.3); }
+.btn-disabled   { background: rgba(247,244,236,0.1); color: var(--ivory-dim); cursor: not-allowed; }
+
+/* ---- Formularios (dark) ---- */
+.field-group { display: flex; flex-direction: column; gap: 0.3rem; }
+.field-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ivory-dim); }
+.field-input, .field-select {
+  width: 100%;
+  padding: 0.82rem 1rem;
+  background: var(--surface);
+  border: 1.5px solid rgba(247,244,236,0.12);
+  border-radius: var(--radius-md);
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field-input::placeholder { color: var(--ivory-dim); }
+.field-input:focus, .field-select:focus { border-color: rgba(247,244,236,0.35); }
+.field-hint  { font-size: 0.65rem; color: var(--ivory-dim); }
+.field-error { font-size: 0.65rem; color: var(--error); }
+
+/* Formularios (light — login/registro sobre ivory) */
+.field-input-light {
+  width: 100%;
+  padding: 0.82rem 1rem;
+  background: white;
+  border: 1.5px solid #d0ccc4;
+  border-radius: var(--radius-md);
+  color: #1a1a2e;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  outline: none;
+}
+.field-input-light:focus { border-color: #102a43; }
+
+/* ---- Badges ---- */
+.badge {
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.badge-active   { background: rgba(201,169,110,0.2); color: var(--gold); }
+.badge-pending  { background: rgba(247,244,236,0.1); color: var(--ivory-dim); }
+.badge-rejected { background: rgba(123,16,35,0.2); color: var(--error); }
+.badge-free     { background: rgba(201,169,110,0.15); color: var(--gold); border: 1px solid var(--gold); }
+.badge-wine     { background: var(--wine); color: var(--ivory); }
+
+/* ---- Progress bar ---- */
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(247,244,236,0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill { height: 100%; background: var(--gold); border-radius: 3px; }
+.progress-fill-wine { height: 100%; background: var(--wine); border-radius: 3px; }
+
+/* ---- Tabs ---- */
+.tabs { display: flex; border-bottom: 1px solid rgba(247,244,236,0.1); }
+.tab {
+  flex: 1; padding: 0.85rem;
+  font-size: 0.75rem; font-weight: 600;
+  text-align: center; cursor: pointer;
+  color: var(--ivory-dim);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.tab.active { color: var(--ivory); border-bottom-color: var(--wine); }
+
+/* ---- Log de auditoría ---- */
+.log-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; }
+.log-header { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ivory-dim); margin-bottom: 0.25rem; }
+.log-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid rgba(247,244,236,0.06); }
+.log-row:last-child { border-bottom: none; }
+.log-key { font-size: 0.7rem; color: var(--ivory-dim); }
+.log-val { font-size: 0.7rem; color: var(--ivory); font-weight: 600; }
+
+/* ---- Métricas ---- */
+.metrics-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+.metrics-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+.metric-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1rem 0.85rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.metric-card.wine { background: var(--wine); }
+.metric-val { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--ivory); }
+.metric-val-sm { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+.metric-label { font-size: 0.62rem; color: var(--ivory-dim); line-height: 1.3; }
+.metric-card.wine .metric-label { color: rgba(247,244,236,0.75); }
+
+/* ---- Chips de filtro ---- */
+.chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.chip {
+  padding: 0.32rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(247,244,236,0.25);
+  background: transparent;
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: 0.73rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip.active, .chip:hover { background: var(--ivory); color: var(--bg); border-color: var(--ivory); }
+
+/* ---- Search bar ---- */
+.search-bar {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--surface);
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  outline: none;
+}
+.search-bar::placeholder { color: var(--ivory-dim); }

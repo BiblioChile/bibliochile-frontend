@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Mis Obras</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .obras-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .obra-card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .obra-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .obra-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+    .obra-genre { font-size: 0.68rem; color: var(--ivory-dim); margin-top: 0.15rem; }
+    .obra-meta { display: flex; gap: 1rem; }
+    .obra-actions { display: flex; gap: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-title">BiblioChile</div>
+    <div class="top-bar-role">AUTOR NACIONAL</div>
+  </div>
+
+  <main class="page-main">
+    <div class="text-title">Mis obras</div>
+    <button class="btn btn-primary">+ Publicar nueva obra</button>
+
+    <div class="section">
+      <div class="text-section">Obras publicadas</div>
+      <div class="obras-list">
+        <div class="obra-card">
+          <div class="obra-header">
+            <div><div class="obra-title">El último tren del sur</div><div class="obra-genre">Narrativa · Novela</div></div>
+            <span class="badge badge-active">APROBADA</span>
+          </div>
+          <div class="obra-meta">
+            <div class="text-small">Lecturas: <strong style="color:var(--ivory)">842</strong></div>
+            <div class="text-small">Publicado: <strong style="color:var(--ivory)">Mar 2026</strong></div>
+          </div>
+          <div class="obra-actions">
+            <button class="btn-sm">Ver estadísticas</button>
+            <button class="btn-sm approve">Editar</button>
+          </div>
+        </div>
+
+        <div class="obra-card">
+          <div class="obra-header">
+            <div><div class="obra-title">Fragmentos de sal</div><div class="obra-genre">Poesía</div></div>
+            <span class="badge badge-active">APROBADA</span>
+          </div>
+          <div class="obra-meta">
+            <div class="text-small">Lecturas: <strong style="color:var(--ivory)">312</strong></div>
+            <div class="text-small">Publicado: <strong style="color:var(--ivory)">Ene 2026</strong></div>
+          </div>
+          <div class="obra-actions">
+            <button class="btn-sm">Ver estadísticas</button>
+            <button class="btn-sm approve">Editar</button>
+          </div>
+        </div>
+
+        <div class="obra-card">
+          <div class="obra-header">
+            <div><div class="obra-title">Viaje al confín</div><div class="obra-genre">Ensayo</div></div>
+            <span class="badge badge-pending">PENDIENTE</span>
+          </div>
+          <div class="obra-meta">
+            <div class="text-small">En revisión por el administrador</div>
+          </div>
+          <div class="obra-actions">
+            <button class="btn-sm approve">Editar mientras se revisa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">Dashboard</div>
+    <div class="nav-item active">Mis obras</div>
+    <div class="nav-item">Perfil</div>
+  </nav>
+</body>
+</html>

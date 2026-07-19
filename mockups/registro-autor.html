@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioChile — Registro Autor</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .top-section { padding: 2.5rem 2rem 1.5rem; flex-shrink: 0; }
+    .page-title { font-family: var(--font-display); font-size: 2.4rem; font-weight: 400; font-style: italic; line-height: 1.15; }
+    .page-subtitle { font-size: 0.75rem; color: var(--ivory-dim); margin-top: 0.4rem; }
+    .form-card { background: var(--ivory); border-radius: 28px 28px 0 0; flex: 1; padding: 1.75rem 2rem; display: flex; flex-direction: column; gap: 0.85rem; overflow-y: auto; }
+    .field-label-light { font-size: 0.68rem; font-weight: 600; color: #4a4a6a; letter-spacing: 0.06em; text-transform: uppercase; }
+    .dj-box { background: #f0ede5; border: 1.5px solid #d0ccc4; border-radius: var(--radius-md); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .dj-title { font-size: 0.72rem; font-weight: 700; color: #2a2a4a; text-transform: uppercase; letter-spacing: 0.06em; }
+    .dj-text { font-size: 0.72rem; color: #555; line-height: 1.6; }
+    .dj-check-row { display: flex; align-items: flex-start; gap: 0.75rem; }
+    .dj-checkbox { width: 18px; height: 18px; border: 2px solid var(--bg); border-radius: 4px; flex-shrink: 0; margin-top: 1px; background: var(--bg); display: flex; align-items: center; justify-content: center; color: var(--ivory); font-size: 0.7rem; }
+    .dj-check-label { font-size: 0.75rem; color: #2a2a4a; font-weight: 500; line-height: 1.5; }
+    .dj-meta { font-size: 0.65rem; color: #888; }
+    .btn-primary-light { width: 100%; padding: 1rem; background: var(--wine); color: var(--ivory); border: none; border-radius: var(--radius-md); font-family: var(--font-ui); font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+    .login-row { text-align: center; font-size: 0.78rem; color: #4a4a6a; }
+    .login-link { color: var(--wine); font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="top-section">
+    <h1 class="page-title">Registro autor nacional</h1>
+    <p class="page-subtitle">Tu solicitud será revisada por un administrador antes de activarse</p>
+  </div>
+
+  <div class="form-card">
+    <div class="field-group">
+      <label class="field-label-light">Nombre completo <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="text" placeholder="Tu nombre completo" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">RUT <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="text" placeholder="12.345.678-9" />
+      <div style="font-size:0.65rem;color:#888;margin-top:0.15rem">Ingresa tu RUT con puntos y guión</div>
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Correo electrónico <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="email" placeholder="tu@correo.com" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Contraseña <span style="color:var(--wine)">*</span></label>
+      <input class="field-input-light" type="password" placeholder="Mínimo 8 caracteres" />
+    </div>
+    <div class="field-group">
+      <label class="field-label-light">Biografía</label>
+      <input class="field-input-light" type="text" placeholder="Breve descripción de tu obra y trayectoria" />
+    </div>
+
+    <div class="dj-box">
+      <div class="dj-title">Declaración jurada digital</div>
+      <div class="dj-text">Declaro que soy el/la legítimo/a autor/a de las obras que publicaré en BiblioChile, que dichas obras son originales y no infringen derechos de terceros, y que autorizo a BiblioChile a distribuirlas bajo las condiciones de la plataforma.</div>
+      <div class="dj-check-row">
+        <div class="dj-checkbox">✓</div>
+        <div class="dj-check-label">Acepto y firmo digitalmente esta declaración jurada de autoría <span style="color:var(--wine)">*</span></div>
+      </div>
+      <div class="dj-meta">Se registrará: RUT · Nombre · Fecha y hora de firma</div>
+    </div>
+
+    <button class="btn-primary-light">Enviar solicitud de registro</button>
+    <div class="login-row">¿Ya tienes cuenta? <span class="login-link">Inicia sesión</span></div>
+  </div>
+</body>
+</html>
