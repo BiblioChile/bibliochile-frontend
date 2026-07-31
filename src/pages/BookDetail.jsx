@@ -88,10 +88,8 @@ const BookDetail = () => {
 
       {book.content_url && (
         <div style={{ padding: "0 1.25rem 2rem" }}>
-          <a
-            href={book.content_url}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => navigate(`/reader/${id}`)}
             style={{
               display: "block",
               width: "100%",
@@ -103,15 +101,19 @@ const BookDetail = () => {
               fontFamily: "var(--font-ui)",
               fontSize: "0.9rem",
               fontWeight: 700,
-              textAlign: "center",
-              textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Comenzar a leer
-          </a>
+          </button>
+
+        <a>
+          Comenzar a leer
+        </a>
         </div>
-      )}
-    </div>
+  )
+}
+    </div >
   );
 };
 
