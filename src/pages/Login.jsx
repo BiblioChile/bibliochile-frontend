@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Container, Form, Button, Alert } from "react-bootstrap";
+import { useAuth } from "../context/AuthContext.jsx"
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      navigate("/");
+    }
+  }, [authLoading, isAuthenticated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,13 +25,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
-        email,
-        password,
-      });
-
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        { email, password }
+      );
+      //localStorage.setItem("token", response.data.token);
+      //localStorage.setItem("user", JSON.stringify(response.data.user));
+      login(response.data.token, response.data.user);
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message ?? "Error al iniciar sesión");
@@ -31,20 +41,17 @@ const Login = () => {
   };
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      maxWidth: "430px",
-      margin: "0 auto",
-    }}>
-      <div style={{ padding: "3.5rem 2rem 2rem" }}>
+    <div className="bc-page">
+
+      {/* Header */}
+      <div className="px-4 pt-5 pb-4">
         <h1 style={{
           fontFamily: "var(--font-display)",
-          fontSize: "3rem",
+          fontSize: "2.8rem",
           fontWeight: 400,
           fontStyle: "italic",
           lineHeight: 1.15,
+          color: "var(--ivory)",
         }}>
           Bienvenido a BiblioChile
         </h1>
@@ -53,88 +60,61 @@ const Login = () => {
         </p>
       </div>
 
+      {/* Formulario */}
       <div style={{
         background: "var(--ivory)",
         borderRadius: "28px 28px 0 0",
-        flex: 1,
-        padding: "2.5rem 2rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
+        minHeight: "calc(100vh - 180px)",
+        padding: "2rem 1.5rem",
       }}>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
-            <label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Correo electrónico
-            </label>
-            <input
+            </Form.Label>
+            <Form.Control
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="tu@correo.com"
               required
-              style={{
-                padding: "0.82rem 1rem",
-                border: "1.5px solid #d0ccc4",
-                borderRadius: "10px",
-                fontFamily: "var(--font-ui)",
-                fontSize: "0.88rem",
-                outline: "none",
-              }}
+              style={{ borderRadius: "10px", fontSize: "0.88rem", padding: "0.82rem 1rem" }}
             />
-          </div>
+          </Form.Group>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
-            <label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Contraseña
-            </label>
-            <input
+            </Form.Label>
+            <Form.Control
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              style={{
-                padding: "0.82rem 1rem",
-                border: "1.5px solid #d0ccc4",
-                borderRadius: "10px",
-                fontFamily: "var(--font-ui)",
-                fontSize: "0.88rem",
-                outline: "none",
-              }}
+              style={{ borderRadius: "10px", fontSize: "0.88rem", padding: "0.82rem 1rem" }}
             />
-          </div>
+          </Form.Group>
 
-          {error && (
-            <div style={{ fontSize: "0.82rem", color: "var(--wine)", textAlign: "center" }}>
-              {error}
-            </div>
-          )}
+          {error && <Alert variant="danger" style={{ fontSize: "0.82rem" }}>{error}</Alert>}
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            style={{
-              padding: "1rem",
-              background: loading ? "#ccc" : "var(--wine)",
-              color: "var(--ivory)",
-              border: "none",
-              borderRadius: "10px",
-              fontFamily: "var(--font-ui)",
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              cursor: loading ? "not-allowed" : "pointer",
-            }}
+            className="bc-btn-primary w-100 py-3 mt-2"
           >
             {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
-          </button>
-        </form>
+          </Button>
+        </Form>
 
-        <div style={{ textAlign: "center", fontSize: "0.82rem", color: "#4a4a6a" }}>
+        <div style={{ textAlign: "center", fontSize: "0.82rem", color: "#4a4a6a", marginTop: "1.5rem" }}>
           ¿No tienes cuenta?{" "}
-          <a href="/registro" style={{ color: "var(--wine)", fontWeight: 600, textDecoration: "none" }}>
+          <span
+            onClick={() => navigate("/registro")}
+            style={{ color: "var(--wine)", fontWeight: 600, cursor: "pointer" }}
+          >
             Regístrate
-          </a>
+          </span>
         </div>
       </div>
     </div>
