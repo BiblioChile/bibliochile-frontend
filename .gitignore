@@ -16,6 +16,10 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .env
+.env.local
+.env.production
+node_modules/
+dist/
 .idea
 .DS_Store
 *.suo
