@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api.js";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext.jsx"
@@ -25,13 +25,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        { email, password }
-      );
-      //localStorage.setItem("token", response.data.token);
-      //localStorage.setItem("user", JSON.stringify(response.data.user));
-      login(response.data.token, response.data.user);
+      const response = await api.post("/auth/login", { email, password });
+      await login(response.data.token, response.data.user);
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message ?? "Error al iniciar sesión");
@@ -68,7 +63,7 @@ const Login = () => {
         padding: "2rem 1.5rem",
       }}>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3" controlId="loginEmail">
             <Form.Label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Correo electrónico
             </Form.Label>
@@ -82,7 +77,7 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3" controlId="loginPassword">
             <Form.Label style={{ fontSize: "0.72rem", fontWeight: 600, color: "#4a4a6a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Contraseña
             </Form.Label>
