@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api.js";
 import { useParams, useNavigate } from "react-router-dom";
 
 const BookDetail = () => {
@@ -12,7 +12,7 @@ const BookDetail = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/books/${id}`);
+        const response = await api.get(`/books/${id}`);
         setBook(response.data);
       } catch {
         setError("Libro no encontrado");
@@ -106,14 +106,9 @@ const BookDetail = () => {
           >
             Comenzar a leer
           </button>
-
-        <a>
-          Comenzar a leer
-        </a>
         </div>
-  )
-}
-    </div >
+      )}
+    </div>
   );
 };
 

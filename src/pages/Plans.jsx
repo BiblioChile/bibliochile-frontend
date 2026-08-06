@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
 import { Container, Spinner } from "react-bootstrap";
 
 const Plans = () => {
@@ -12,7 +12,7 @@ const Plans = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/subscriptions/plans`);
+        const response = await api.get("/subscriptions/plans");
         setPlans(response.data);
       } catch {
         setError("Error al cargar los planes");

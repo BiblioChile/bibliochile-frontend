@@ -1,20 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
+import { useAuth } from "../context/AuthContext";
+import { getAnonymousUuid } from "../utils/anonymousId";
+
+// El content_url apunta a Gutenberg (un solo documento, sin paginación real),
+// así que el progreso se aproxima por tiempo transcurrido dentro del lector.
+// 20 minutos como estimación MVP de "libro completo" — ajustable a futuro.
+const ESTIMATED_READING_SECONDS = 20 * 60;
+const PROGRESS_SAVE_INTERVAL_MS = 15000;
 
 const Reader = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { token } = useAuth();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
+
+  const startTimeRef = useRef(Date.now());
+  const progressRef = useRef(0);
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/books/${id}`
-        );
+        const response = await api.get(`/books/${id}`);
         setBook(response.data);
       } catch {
         setError("No se pudo cargar el libro");
@@ -24,6 +35,43 @@ const Reader = () => {
     };
     fetchBook();
   }, [id]);
+
+  useEffect(() => {
+    const saveProgress = async (currentProgress) => {
+      try {
+        await api.post("/progress", {
+          bookId: id,
+          progressPercentage: currentProgress,
+          lastPosition: `${currentProgress}%`,
+          ...(!token && { anonymousUuid: getAnonymousUuid() }),
+        });
+      } catch {
+        // El guardado de progreso es best-effort: si falla, no interrumpe la lectura.
+      }
+    };
+
+    if (!book) return;
+
+    const tickInterval = setInterval(() => {
+      const elapsedSeconds = (Date.now() - startTimeRef.current) / 1000;
+      const nextProgress = Math.min(
+        100,
+        Math.round((elapsedSeconds / ESTIMATED_READING_SECONDS) * 100)
+      );
+      progressRef.current = nextProgress;
+      setProgress(nextProgress);
+    }, 1000);
+
+    const saveInterval = setInterval(() => {
+      saveProgress(progressRef.current);
+    }, PROGRESS_SAVE_INTERVAL_MS);
+
+    return () => {
+      clearInterval(tickInterval);
+      clearInterval(saveInterval);
+      saveProgress(progressRef.current);
+    };
+  }, [book, id, token]);
 
   if (loading) return (
     <div style={{ textAlign: "center", padding: "3rem", color: "var(--ivory-dim)" }}>
@@ -129,13 +177,14 @@ const Reader = () => {
         }}>
           <div style={{
             height: "100%",
-            width: "0%",
+            width: `${progress}%`,
             background: "var(--wine)",
             borderRadius: "3px",
+            transition: "width 0.3s ease",
           }} />
         </div>
         <span style={{ fontSize: "0.72rem", color: "var(--ivory-dim)", flexShrink: 0 }}>
-          0%
+          {progress}%
         </span>
       </div>
     </div>

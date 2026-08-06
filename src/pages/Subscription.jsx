@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
 import { useAuth } from "../context/AuthContext";
 import { Container, Card, Button, Badge, Spinner, Alert, ProgressBar } from "react-bootstrap";
 
@@ -13,16 +13,15 @@ const Subscription = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const navigate = useNavigate();
-  const { token, isAuthenticated, loading: authLoading } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const headers = { Authorization: `Bearer ${token}` };
       const [subRes, plansRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/subscriptions/me`, { headers }),
-        axios.get(`${import.meta.env.VITE_API_URL}/api/subscriptions/plans`),
+        api.get("/subscriptions/me"),
+        api.get("/subscriptions/plans"),
       ]);
 
       setActiveSubscription(subRes.data);
@@ -49,11 +48,7 @@ const Subscription = () => {
     setSubmitError(null);
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/subscriptions`,
-        { planId: selectedPlanId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await api.post("/subscriptions", { planId: selectedPlanId });
       await fetchData(); // refresca el estado actual tras contratar
     } catch (err) {
       setSubmitError(err.response?.data?.message ?? "Error al procesar el pago");
@@ -112,46 +107,48 @@ const Subscription = () => {
               </div>
             )}
 
-            {/* Selector de planes */}
-            <div className="mb-3">
-              <h3 className="bc-section-title" style={{ fontSize: "0.9rem" }}>
-                {activeSubscription?.active ? "Cambiar plan" : "Elige tu plan"}
-              </h3>
-              <div className="bc-plans-list">
-                {plans.map((plan) => (
-                  <div
-                    key={plan.id}
-                    className={`bc-plan-card ${selectedPlanId === plan.id ? "selected" : ""}`}
-                    onClick={() => setSelectedPlanId(plan.id)}
-                  >
-                    <div>
-                      <div className="bc-plan-name">{planLabel(plan.name)}</div>
-                      <div className="bc-plan-detail">
-                        Hasta {plan.max_rentals} libros · {plan.duration_days} días
+            {/* Selector de planes — solo si no hay una suscripción activa,
+                ya que el backend rechaza con 409 cualquier intento de
+                contratar mientras exista una activa (no hay upgrade/downgrade) */}
+            {!activeSubscription?.active && (
+              <>
+                <div className="mb-3">
+                  <h3 className="bc-section-title" style={{ fontSize: "0.9rem" }}>
+                    Elige tu plan
+                  </h3>
+                  <div className="bc-plans-list">
+                    {plans.map((plan) => (
+                      <div
+                        key={plan.id}
+                        className={`bc-plan-card ${selectedPlanId === plan.id ? "selected" : ""}`}
+                        onClick={() => setSelectedPlanId(plan.id)}
+                      >
+                        <div>
+                          <div className="bc-plan-name">{planLabel(plan.name)}</div>
+                          <div className="bc-plan-detail">
+                            Hasta {plan.max_rentals} libros · {plan.duration_days} días
+                          </div>
+                        </div>
+                        <div className="bc-plan-price">
+                          {formatPrice(plan.price)}{" "}
+                          <span>{plan.name === "mensual" ? "/mes" : "/año"}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bc-plan-price">
-                      {formatPrice(plan.price)}{" "}
-                      <span>{plan.name === "mensual" ? "/mes" : "/año"}</span>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            {submitError && <Alert variant="danger" style={{ fontSize: "0.82rem" }}>{submitError}</Alert>}
+                {submitError && <Alert variant="danger" style={{ fontSize: "0.82rem" }}>{submitError}</Alert>}
 
-            <Button
-              className="bc-btn-primary w-100 mb-2"
-              disabled={!selectedPlanId || submitting}
-              onClick={handlePago}
-            >
-              {submitting ? "Procesando..." : "Pago"}
-            </Button>
-
-            <div className="bc-disclaimer">
-              Los pagos son simulados. No se realizará ningún cobro real.
-            </div>
+                <Button
+                  className="bc-btn-primary w-100 mb-2"
+                  disabled={!selectedPlanId || submitting}
+                  onClick={handlePago}
+                >
+                  {submitting ? "Procesando..." : "Pago"}
+                </Button>
+              </>
+            )}
           </>
         )}
       </Container>
