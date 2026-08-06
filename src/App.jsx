@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import BookDetail from "./pages/BookDetail";
 import Reader from "./pages/Reader";
 import QRRedirect from "./pages/QRRedirect";
@@ -16,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Register />} />
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/reader/:id" element={<Reader />} />
           <Route path="/qr/:code" element={<QRRedirect />} />
