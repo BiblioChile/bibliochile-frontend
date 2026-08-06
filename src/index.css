@@ -12,15 +12,38 @@
   --font-ui:      'Montserrat', sans-serif;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--ivory);
-  font-family: var(--font-ui);
+  background-color: var(--bg) !important;
+  color: var(--ivory) !important;
+  font-family: var(--font-ui) !important;
   min-height: 100vh;
+}
+
+/* Forzar colores sobre Bootstrap */
+.bc-page,
+.bc-page h1,
+.bc-page h2,
+.bc-page h3,
+.bc-page h4,
+.bc-page h5,
+.bc-page p,
+.bc-page span,
+.bc-page div {
+  color: var(--ivory) !important;
+}
+
+.bc-card,
+.bc-card .card-body,
+.bc-card .card-title,
+.bc-card p,
+.bc-card span,
+.bc-card div {
+  color: var(--ivory) !important;
+  background-color: var(--surface) !important;
 }
