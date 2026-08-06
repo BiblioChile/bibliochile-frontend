@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { Navbar, Container, Button, Form, InputGroup, Card, Badge, Spinner, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Button, Form, InputGroup, Spinner } from "react-bootstrap";
+import BookCard from "../components/BookCard.jsx";
+import { fetchContinueReading } from "../utils/progress.js";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const { isAuthenticated } = useAuth();
+  const [continueReading, setContinueReading] = useState([]);
+  const { isAuthenticated, token } = useAuth();
   const navigate = useNavigate();
 
   const fetchBooks = async (query = "") => {
@@ -17,7 +20,7 @@ const Home = () => {
     setError(null);
     try {
       const params = query ? `?search=${query}` : "";
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/books${params}`);
+      const response = await api.get(`/books${params}`);
       setBooks(response.data.results);
     } catch {
       setError("Error al cargar el catálogo");
@@ -29,6 +32,19 @@ const Home = () => {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  useEffect(() => {
+    const loadContinueReading = async () => {
+      try {
+        const data = await fetchContinueReading(token);
+        setContinueReading(data);
+      } catch {
+        // Sección opcional: si falla, simplemente no se muestra.
+        setContinueReading([]);
+      }
+    };
+    loadContinueReading();
+  }, [token]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -72,6 +88,23 @@ const Home = () => {
         </Form>
       </Container>
 
+      {/* Continuar leyendo */}
+      {continueReading.length > 0 && (
+        <Container fluid className="px-3 pb-2">
+          <h2 className="bc-section-title">Continuar leyendo</h2>
+          <div className="d-flex flex-column gap-3">
+            {continueReading.map((item) => (
+              <BookCard
+                key={item.bookId}
+                book={item.book}
+                progress={item.progressPercentage}
+                onClick={() => navigate(`/reader/${item.bookId}`)}
+              />
+            ))}
+          </div>
+        </Container>
+      )}
+
       {/* Catálogo */}
       <Container fluid className="px-3 pb-4">
         <h2 className="bc-section-title">Catálogo</h2>
@@ -88,35 +121,11 @@ const Home = () => {
         {!loading && !error && (
           <div className="d-flex flex-column gap-3">
             {books.map((book) => (
-              <Card
+              <BookCard
                 key={book.id}
-                className="bc-card"
+                book={book}
                 onClick={() => navigate(`/books/${book.id}`)}
-              >
-                <Card.Body className="p-3">
-                  <Row className="align-items-center g-2">
-                    {book.cover_url && (
-                      <Col xs="auto">
-                        <img
-                          src={book.cover_url}
-                          alt={book.title}
-                          style={{
-                            width: "48px",
-                            height: "64px",
-                            borderRadius: "6px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Col>
-                    )}
-                    <Col>
-                      <div className="bc-card-title">{book.title}</div>
-                      <div className="bc-card-subtitle">{book.author}</div>
-                      <Badge className="bc-badge-free mt-1">GRATIS</Badge>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
+              />
             ))}
           </div>
         )}
