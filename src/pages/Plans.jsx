@@ -2,12 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api.js";
 import { Container, Spinner } from "react-bootstrap";
+import AppNavbar from "../components/AppNavbar.jsx";
+import BottomNav from "../components/BottomNav.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const Plans = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -28,9 +32,7 @@ const Plans = () => {
 
   return (
     <div className="bc-page">
-      <div className="bc-navbar px-3 py-2">
-        <span className="bc-navbar-brand">BiblioChile</span>
-      </div>
+      <AppNavbar />
 
       <Container fluid className="px-3 py-3">
         <h2 className="bc-section-title">Nuestros planes</h2>
@@ -63,15 +65,18 @@ const Plans = () => {
           </div>
         )}
 
-        <button className="bc-btn-primary w-100" onClick={() => navigate("/login")}>
-          Iniciar sesión para suscribirte
-        </button>
+        {isAuthenticated ? (
+          <button className="bc-btn-primary w-100" onClick={() => navigate("/subscription")}>
+            Suscribirme
+          </button>
+        ) : (
+          <button className="bc-btn-primary w-100" onClick={() => navigate("/login")}>
+            Iniciar sesión para suscribirte
+          </button>
+        )}
       </Container>
 
-      <div className="bc-bottom-nav d-flex justify-content-around">
-        <div className="bc-nav-item" onClick={() => navigate("/")}>Inicio</div>
-        <div className="bc-nav-item active">Planes</div>
-      </div>
+      <BottomNav />
     </div>
   );
 };
