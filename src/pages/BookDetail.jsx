@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import api from "../services/api.js";
 import { useParams, useNavigate } from "react-router-dom";
+import AppNavbar from "../components/AppNavbar.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 
 const BookDetail = () => {
   const { id } = useParams();
@@ -24,19 +26,28 @@ const BookDetail = () => {
   }, [id]);
 
   if (loading) return (
-    <div style={{ textAlign: "center", padding: "3rem", color: "var(--ivory-dim)" }}>
-      Cargando...
+    <div className="bc-page">
+      <AppNavbar />
+      <div style={{ textAlign: "center", padding: "3rem", color: "var(--ivory-dim)" }}>
+        Cargando...
+      </div>
+      <BottomNav />
     </div>
   );
 
   if (error) return (
-    <div style={{ textAlign: "center", padding: "3rem", color: "var(--wine)" }}>
-      {error}
+    <div className="bc-page">
+      <AppNavbar />
+      <div style={{ textAlign: "center", padding: "3rem", color: "var(--wine)" }}>
+        {error}
+      </div>
+      <BottomNav />
     </div>
   );
 
   return (
-    <div style={{ maxWidth: "430px", margin: "0 auto", minHeight: "100vh" }}>
+    <div className="bc-page">
+      <AppNavbar />
       <div
         onClick={() => navigate(-1)}
         style={{ padding: "1rem 1.25rem", fontSize: "0.8rem", color: "var(--ivory-dim)", cursor: "pointer" }}
@@ -108,6 +119,8 @@ const BookDetail = () => {
           </button>
         </div>
       )}
+
+      <BottomNav />
     </div>
   );
 };

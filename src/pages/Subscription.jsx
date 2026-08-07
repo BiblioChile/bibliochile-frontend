@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api.js";
 import { useAuth } from "../context/AuthContext";
 import { Container, Card, Button, Badge, Spinner, Alert, ProgressBar } from "react-bootstrap";
+import AppNavbar from "../components/AppNavbar.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 
 const Subscription = () => {
   const [activeSubscription, setActiveSubscription] = useState(null);
@@ -66,9 +68,7 @@ const Subscription = () => {
     <div className="bc-page">
 
       {/* Header */}
-      <div className="bc-navbar px-3 py-2">
-        <span className="bc-navbar-brand">BiblioChile</span>
-      </div>
+      <AppNavbar />
 
       <Container fluid className="px-3 py-3">
         <h2 className="bc-section-title">Suscripción</h2>
@@ -153,12 +153,7 @@ const Subscription = () => {
         )}
       </Container>
 
-      {/* Bottom Nav */}
-      <div className="bc-bottom-nav d-flex justify-content-around">
-        <div className="bc-nav-item" onClick={() => navigate("/")}>Inicio</div>
-        <div className="bc-nav-item active">Perfil</div>
-      </div>
-
+      <BottomNav />
     </div>
   );
 };

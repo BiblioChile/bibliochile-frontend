@@ -3,6 +3,7 @@ import api from "../services/api.js";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -131,6 +132,8 @@ const Register = () => {
           </span>
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 };

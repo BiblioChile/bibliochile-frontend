@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import api from "../services/api.js";
 import QRRedirect from "./QRRedirect";
+import { AuthProvider } from "../context/AuthContext";
 
 vi.mock("../services/api.js", () => ({
   default: { get: vi.fn(), post: vi.fn() },
@@ -11,10 +12,12 @@ vi.mock("../services/api.js", () => ({
 const renderAt = (code) =>
   render(
     <MemoryRouter initialEntries={[`/qr/${code}`]}>
-      <Routes>
-        <Route path="/qr/:code" element={<QRRedirect />} />
-        <Route path="/books/:id" element={<div>Detalle del libro</div>} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/qr/:code" element={<QRRedirect />} />
+          <Route path="/books/:id" element={<div>Detalle del libro</div>} />
+        </Routes>
+      </AuthProvider>
     </MemoryRouter>
   );
 

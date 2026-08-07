@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api.js";
+import AppNavbar from "../components/AppNavbar.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 
 const QRRedirect = () => {
   const { code } = useParams();
@@ -27,14 +29,8 @@ const QRRedirect = () => {
 
   if (error) {
     return (
-      <div style={{ maxWidth: "430px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-
-        {/* Header */}
-        <div style={{ background: "var(--wine)", padding: "0.85rem 1.25rem" }}>
-          <span style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700 }}>
-            BiblioChile
-          </span>
-        </div>
+      <div className="bc-page" style={{ display: "flex", flexDirection: "column" }}>
+        <AppNavbar />
 
         {/* Error */}
         <div style={{ flex: 1, padding: "2rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
@@ -93,14 +89,20 @@ const QRRedirect = () => {
             Volver al inicio
           </button>
         </div>
+
+        <BottomNav />
       </div>
     );
   }
 
   // Mientras redirige
   return (
-    <div style={{ textAlign: "center", padding: "3rem", color: "var(--ivory-dim)" }}>
-      Cargando libro...
+    <div className="bc-page">
+      <AppNavbar />
+      <div style={{ textAlign: "center", padding: "3rem", color: "var(--ivory-dim)" }}>
+        Cargando libro...
+      </div>
+      <BottomNav />
     </div>
   );
 };

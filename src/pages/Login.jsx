@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import api from "../services/api.js";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext.jsx"
+import { useAuth } from "../context/AuthContext.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 
 
 const Login = () => {
@@ -112,6 +113,8 @@ const Login = () => {
           </span>
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 };
