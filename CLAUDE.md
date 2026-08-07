@@ -109,6 +109,25 @@ Si una pieza de UI nueva se repite en 2+ vistas, extraela a `src/components/` (y
 con `BookCard.jsx`). Los tests van junto al archivo que prueban (`Componente.test.jsx`), no en
 una carpeta `__tests__/` aparte.
 
+### Shell de navegación (`AppNavbar` + `BottomNav`)
+
+Toda vista (salvo `Reader.jsx`, que es inmersiva) usa dos componentes compartidos en vez de
+maquetar su propio navbar/bottom-nav a mano — antes estaban duplicados por página, el logo no
+tenía `onClick`, y algunas vistas (`Login`, `Register`, `BookDetail`, `QRRedirect`) no tenían
+bottom-nav en absoluto, dejando al usuario sin salida en ciertos flujos (ej. tras cerrar sesión):
+
+- `src/components/AppNavbar.jsx` — navbar superior; el logo/marca siempre navega a `/`.
+  Slot `children` para acciones a la derecha (ej. botón "Ingresar" en `Home`).
+- `src/components/BottomNav.jsx` — bottom-nav con Inicio / Planes / Perfil. Ítem activo
+  calculado por ruta real (`useLocation`), no hardcodeado por vista. "Perfil" apunta a
+  `/dashboard` con sesión o `/login` sin ella. Usa `useAuth()` — cualquier vista que lo
+  renderice (directa o vía test) debe estar envuelta en `AuthProvider`.
+- `src/components/icons.jsx` — iconos SVG inline para el bottom-nav (sin librería de iconos:
+  no está en el stack, ver "Stack tecnológico").
+
+Antes de agregar una vista nueva con navegación, usá estos dos componentes en vez de repetir
+`bc-navbar` / `bc-bottom-nav` a mano.
+
 ---
 
 ## Variables de entorno
@@ -184,14 +203,18 @@ Errores de validación (422) devuelven además: `{ "errors": [{ "field": "...", 
   bajo la key `bc_anonymous_uuid`
 - `src/components/BookCard.jsx` — card de libro extraída, reusada en catálogo, "Continuar leyendo"
   y el historial del dashboard
+- Shell de navegación compartido (`AppNavbar.jsx` + `BottomNav.jsx` + `icons.jsx`, ver sección
+  "Shell de navegación" arriba), con test propio (`AppNavbar.test.jsx`, `BottomNav.test.jsx`)
+- Todas las vistas tienen test (`Register.test.jsx`, `Login.test.jsx`, `QRRedirect.test.jsx`,
+  `Home.test.jsx`, `BookDetail.test.jsx`, `Plans.test.jsx`, `Reader.test.jsx`,
+  `Subscription.test.jsx`, `DashboardPasajero.test.jsx`), igual que `BookCard.jsx`,
+  `AuthContext.jsx`, `anonymousId.js` y `progress.js` — objetivo de cobertura del sprint 2 cerrado
 - Tests con Vitest + React Testing Library — ver sección "Tests" más abajo
 - PWA configurada y verificada — instalable en iPhone (Safari) y Android
 
 ### Pendiente
-- Ampliar cobertura de tests a las vistas que todavía no tienen (`Register.jsx`, `BookDetail.jsx`,
-  `Subscription.jsx`, `DashboardPasajero.jsx`, `Home.jsx`, `Reader.jsx`)
-- Ver "Recomendaciones de mejora" más abajo para mejoras incrementales no bloqueantes
-  (interceptor de axios, etc.)
+- Sin pendientes de cobertura de tests. Ver "Recomendaciones de mejora" más abajo para mejoras
+  incrementales no bloqueantes (interceptor de axios, etc.)
 
 ## Tests
 
