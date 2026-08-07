@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { Navbar, Container, Button, Form, InputGroup, Spinner } from "react-bootstrap";
+import { Container, Button, Form, InputGroup, Spinner } from "react-bootstrap";
 import BookCard from "../components/BookCard.jsx";
+import AppNavbar from "../components/AppNavbar.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { fetchContinueReading } from "../utils/progress.js";
 
 const Home = () => {
@@ -55,10 +57,8 @@ const Home = () => {
     <div className="bc-page">
 
       {/* Navbar */}
-      <Navbar className="bc-navbar">
-        <Container fluid className="px-3">
-          <Navbar.Brand className="bc-navbar-brand">BiblioChile</Navbar.Brand>
-          {!isAuthenticated && (
+      <AppNavbar>
+        {!isAuthenticated && (
           <Button
             size="sm"
             variant="outline-light"
@@ -66,9 +66,8 @@ const Home = () => {
           >
             Ingresar
           </Button>
-          )}
-        </Container>
-      </Navbar>
+        )}
+      </AppNavbar>
 
       {/* Búsqueda */}
       <Container fluid className="px-3 py-3">
@@ -92,14 +91,15 @@ const Home = () => {
       {continueReading.length > 0 && (
         <Container fluid className="px-3 pb-2">
           <h2 className="bc-section-title">Continuar leyendo</h2>
-          <div className="d-flex flex-column gap-3">
+          <div className="bc-catalog-scroll">
             {continueReading.map((item) => (
-              <BookCard
-                key={item.bookId}
-                book={item.book}
-                progress={item.progressPercentage}
-                onClick={() => navigate(`/reader/${item.bookId}`)}
-              />
+              <div className="bc-catalog-item" key={item.bookId}>
+                <BookCard
+                  book={item.book}
+                  progress={item.progressPercentage}
+                  onClick={() => navigate(`/reader/${item.bookId}`)}
+                />
+              </div>
             ))}
           </div>
         </Container>
@@ -119,33 +119,20 @@ const Home = () => {
         {error && <div className="bc-error">{error}</div>}
 
         {!loading && !error && (
-          <div className="d-flex flex-column gap-3">
+          <div className="bc-catalog-scroll">
             {books.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                onClick={() => navigate(`/books/${book.id}`)}
-              />
+              <div className="bc-catalog-item" key={book.id}>
+                <BookCard
+                  book={book}
+                  onClick={() => navigate(`/books/${book.id}`)}
+                />
+              </div>
             ))}
           </div>
         )}
       </Container>
 
-      {/* Bottom Nav */}
-      <div className="bc-bottom-nav d-flex justify-content-around">
-        <div className="bc-nav-item active">Inicio</div>
-        {!isAuthenticated && (
-          <div className="bc-nav-item" onClick={() => navigate("/plans")}>
-            Planes
-          </div>
-        )}
-        <div
-          className="bc-nav-item"
-          onClick={() => navigate(isAuthenticated ? "/dashboard" : "/login")}
-        >
-          Perfil
-        </div>
-      </div>
+      <BottomNav />
     </div>
   );
 };
