@@ -18,6 +18,7 @@
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--ivory) !important;
+  cursor: pointer;
 }
 
 /* ===== BOTONES ===== */
@@ -66,6 +67,36 @@
 .bc-card-subtitle {
   font-size: 0.72rem;
   color: var(--ivory-dim);
+}
+
+/* ===== CARRUSEL DE CATÁLOGO ===== */
+/* Fila horizontal con scroll táctil para el catálogo de Home, en vez de
+   una lista vertical larga. Cada card tiene ancho fijo y no se achica
+   (flex-shrink: 0) para que el scroll horizontal se sienta parejo. */
+.bc-catalog-scroll {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(247,244,236,0.25) transparent;
+}
+
+.bc-catalog-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.bc-catalog-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(247,244,236,0.25);
+  border-radius: 3px;
+}
+
+.bc-catalog-item {
+  flex: 0 0 auto;
+  width: 220px;
+  scroll-snap-align: start;
 }
 
 /* ===== FORMULARIOS ===== */
@@ -120,21 +151,37 @@
 
 /* ===== BOTTOM NAV ===== */
 .bc-bottom-nav {
+  position: sticky;
+  bottom: 0;
   border-top: 1px solid rgba(247,244,236,0.1);
   background-color: var(--bg);
-  padding: 1rem 0 1.5rem;
+  padding: 0.6rem 0 1.1rem;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.28);
+  z-index: 10;
 }
 
 .bc-nav-item {
-  font-size: 0.72rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
   color: var(--ivory-dim);
   cursor: pointer;
   text-align: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 10px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.bc-nav-item:hover {
+  color: var(--ivory);
 }
 
 .bc-nav-item.active {
-  color: var(--ivory);
+  color: var(--gold);
   font-weight: 600;
+  background-color: rgba(201,169,110,0.12);
 }
 
 /* ===== SEARCH BAR ===== */
@@ -181,6 +228,52 @@
 }
 
 /* Suscripción */
+/* ===== PERFIL / DASHBOARD ===== */
+/* Header del dashboard: avatar + nombre + logout como link discreto arriba a la
+   derecha, en vez de un botón de ancho completo metido entre secciones de contenido. */
+.bc-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.bc-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--wine), var(--gold));
+  color: var(--ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bc-logout-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  color: var(--ivory-dim);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.bc-logout-link:hover {
+  color: var(--wine);
+  background-color: rgba(123,16,35,0.12);
+}
+
 .bc-status-card {
   background: var(--surface);
   border-radius: 16px;
