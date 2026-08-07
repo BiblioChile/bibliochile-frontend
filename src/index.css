@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:          #102a43;
+  --surface:     #1b3a5c;
+  --wine:        #7b1023;
+  --wine-hover:  #5e0c1a;
+  --ivory:       #F7F4EC;
+  --ivory-dim:   rgba(247, 244, 236, 0.55);
+  --gold:        #C9A96E;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-ui:      'Montserrat', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg) !important;
+  color: var(--ivory) !important;
+  font-family: var(--font-ui) !important;
+  min-height: 100vh;
+}
+
+/* Forzar colores sobre Bootstrap */
+.bc-page,
+.bc-page h1,
+.bc-page h2,
+.bc-page h3,
+.bc-page h4,
+.bc-page h5,
+.bc-page p,
+.bc-page span,
+.bc-page div {
+  color: var(--ivory) !important;
+}
+
+.bc-card,
+.bc-card .card-body,
+.bc-card .card-title,
+.bc-card p,
+.bc-card span,
+.bc-card div {
+  color: var(--ivory) !important;
+  background-color: var(--surface) !important;
+}
