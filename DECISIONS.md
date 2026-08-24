@@ -8,9 +8,15 @@ Cada decisión incluye el contexto, las alternativas evaluadas y la justificaci�
 ## DEC-F01 — Framework UI: React 18
 
 **Fecha:** Sprint 1  
-**Estado:** Activo
+**Estado:** Activo — *corrección de versión: 2026-08-20*
 
 **Decisión:** Usar React 18 como framework principal de UI.
+
+**Corrección (2026-08-20):** la versión instalada realmente es **React 19.2.8**
+(`package.json`), no React 18 como decía este documento — discrepancia
+detectada durante la verificación de estado previa al Sprint 3. La decisión
+de framework (React sobre Vue/Svelte/HTML puro) sigue vigente; solo se
+corrige el número de versión documentado.
 
 **Alternativas evaluadas:**
 - Vue 3
@@ -100,9 +106,16 @@ Cada decisión incluye el contexto, las alternativas evaluadas y la justificaci�
 ## DEC-F05 — Routing: React Router v6
 
 **Fecha:** Sprint 2  
-**Estado:** Activo
+**Estado:** Activo — *corrección de versión: 2026-08-20*
 
 **Decisión:** Usar React Router v6 para la navegación entre vistas.
+
+**Corrección (2026-08-20):** la versión instalada realmente es
+**react-router-dom 7.18.1** (`package.json`), no v6 como decía este
+documento — discrepancia detectada durante la verificación de estado previa
+al Sprint 3. La decisión de librería (React Router sobre TanStack
+Router/Next.js/routing manual) sigue vigente; solo se corrige el número de
+versión documentado.
 
 **Alternativas evaluadas:**
 - TanStack Router
