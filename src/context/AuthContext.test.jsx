@@ -66,6 +66,27 @@ describe("AuthContext", () => {
     expect(screen.getByTestId("user-name")).toHaveTextContent("Sebastián");
   });
 
+  it("restaura el role del usuario (no solo el nombre) desde localStorage al montar — simula un refresh de página", async () => {
+    // localStorage sobrevive a un F5; el mount de AuthProvider en una página
+    // recién cargada es exactamente este mismo efecto leyendo lo persistido.
+    localStorage.setItem("token", futureToken());
+    localStorage.setItem("user", JSON.stringify({ name: "Valentina", role: "autor" }));
+
+    const RoleConsumer = () => {
+      const { user, loading } = useAuth();
+      if (loading) return <div>cargando</div>;
+      return <div data-testid="user-role">{user?.role ?? "sin role"}</div>;
+    };
+
+    render(
+      <AuthProvider>
+        <RoleConsumer />
+      </AuthProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId("user-role")).toHaveTextContent("autor"));
+  });
+
   it("descarta un token expirado al iniciar", async () => {
     localStorage.setItem("token", expiredToken());
     localStorage.setItem("user", JSON.stringify({ name: "Sebastián" }));
