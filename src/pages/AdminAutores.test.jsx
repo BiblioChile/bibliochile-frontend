@@ -67,6 +67,17 @@ describe("AdminAutores", () => {
     expect(api.get).not.toHaveBeenCalled();
   });
 
+  it("tiene un link a 'Catálogo y QR' para no ser una isla separada de AdminPanel", async () => {
+    loginAsAdmin();
+    api.get.mockResolvedValue({ data: pending });
+    const user = userEvent.setup();
+
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: /catálogo y qr/i }));
+
+    expect(await screen.findByText("Vista de panel admin")).toBeInTheDocument();
+  });
+
   it("carga las solicitudes pendientes con GET /admin/authors/pending", async () => {
     loginAsAdmin();
     api.get.mockResolvedValue({ data: pending });

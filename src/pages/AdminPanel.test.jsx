@@ -61,6 +61,19 @@ describe("AdminPanel", () => {
     expect(api.get).not.toHaveBeenCalled();
   });
 
+  it("tiene un link a 'Autores pendientes' para no ser una isla separada de AdminAutores", async () => {
+    loginAsAdmin();
+    api.get.mockImplementation((url) =>
+      url === "/admin/books" ? Promise.resolve({ data: books }) : Promise.resolve({ data: qrcodes })
+    );
+    const user = userEvent.setup();
+
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: /autores pendientes/i }));
+
+    expect(await screen.findByText("Vista de autores pendientes")).toBeInTheDocument();
+  });
+
   it("carga catálogo y códigos QR con GET /admin/books y GET /admin/qrcodes", async () => {
     loginAsAdmin();
     api.get.mockImplementation((url) =>
