@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import Plans from "./pages/Plans.jsx";
 import DashboardPasajero from "./pages/DashboardPasajero.jsx";
 import RegistroAutor from "./pages/RegistroAutor.jsx";
+import DashboardAutor from "./pages/DashboardAutor.jsx";
 import SubirObra from "./pages/SubirObra.jsx";
 import EstadisticasAutor from "./pages/EstadisticasAutor.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/plans" element={<Plans />} />
           <Route path="/dashboard" element={<DashboardPasajero />} />
           <Route path="/autor/registro" element={<RegistroAutor />} />
+          <Route path="/autor/dashboard" element={<DashboardAutor />} />
           <Route path="/autor/subir-obra" element={<SubirObra />} />
           <Route path="/autor/estadisticas" element={<EstadisticasAutor />} />
           <Route path="/admin/panel" element={<AdminPanel />} />
