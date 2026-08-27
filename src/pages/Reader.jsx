@@ -40,7 +40,13 @@ const Reader = () => {
     const saveProgress = async (currentProgress) => {
       try {
         await api.post("/progress", {
-          bookId: id,
+          // useParams() siempre da string — el schema Zod de POST /progress
+          // exige bookId numérico y no coacciona strings, así que sin este
+          // Number() cada guardado fallaba con 422 en silencio (el catch de
+          // abajo lo trata como best-effort) y el progreso nunca se guardaba
+          // (env/prompt_investigar_regresiones.md, punto 1; mismo fix que ya
+          // usa BookDetail.jsx al llamar a POST /rentals).
+          bookId: Number(id),
           progressPercentage: currentProgress,
           lastPosition: `${currentProgress}%`,
           ...(!token && { anonymousUuid: getAnonymousUuid() }),
