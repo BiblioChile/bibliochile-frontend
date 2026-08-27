@@ -11,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { isAuthenticated, loading: authLoading, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +31,13 @@ const Register = () => {
         email,
         password,
       });
-      navigate("/login");
+      // POST /auth/register no devuelve token (solo id/name/email/role,
+      // a diferencia de POST /auth/login) — hay que loguear inmediatamente
+      // después con las mismas credenciales para dejar la sesión iniciada,
+      // en vez de mandar a la cuenta recién creada a loguearse de nuevo a mano.
+      const loginResponse = await api.post("/auth/login", { email, password });
+      await login(loginResponse.data.token, loginResponse.data.user);
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message ?? "Error al crear la cuenta");
     } finally {
