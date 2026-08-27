@@ -7,14 +7,29 @@ const book = {
   title: "La casa de los espíritus",
   author: "Isabel Allende",
   cover_url: "https://example.com/cover.jpg",
+  is_free: true,
 };
 
 describe("BookCard", () => {
-  it("muestra título, autor y badge GRATIS cuando no hay progreso", () => {
+  it("muestra título, autor y badge GRATIS cuando no hay progreso y el libro es gratis", () => {
     render(<BookCard book={book} />);
 
     expect(screen.getByText(book.title)).toBeInTheDocument();
     expect(screen.getByText(book.author)).toBeInTheDocument();
+    expect(screen.getByText("GRATIS")).toBeInTheDocument();
+  });
+
+  it("muestra badge SUSCRIPCIÓN (no GRATIS) cuando el libro tiene is_free: false", () => {
+    render(<BookCard book={{ ...book, is_free: false }} />);
+
+    expect(screen.getByText("SUSCRIPCIÓN")).toBeInTheDocument();
+    expect(screen.queryByText("GRATIS")).not.toBeInTheDocument();
+  });
+
+  it("muestra GRATIS por defecto si el libro no trae is_free (compatibilidad hacia atrás)", () => {
+    const { is_free, ...bookSinIsFree } = book;
+    render(<BookCard book={bookSinIsFree} />);
+
     expect(screen.getByText("GRATIS")).toBeInTheDocument();
   });
 

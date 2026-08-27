@@ -22,10 +22,22 @@ const continueReadingItem = {
   book: { id: 2, title: "Los Sinsabores...", author: "Blest Gana" },
 };
 
-// Por defecto, sin progreso guardado (así no aparece "Continuar leyendo"
-// salvo que el test lo pida explícitamente).
-const mockApiGet = ({ books = [book], continueReading = [] } = {}) => {
+const paidBook = {
+  id: 51,
+  title: "Obra de un autor nacional",
+  author: "Valentina Reyes",
+  is_free: false,
+};
+
+// Por defecto, sin progreso guardado ni libros de pago (así no aparecen
+// "Continuar leyendo" ni "Autores nacionales" salvo que el test lo pida
+// explícitamente). "/books/paid" se revisa antes que el "/books" genérico
+// (search incluido) porque ambos empiezan con el mismo prefijo.
+const mockApiGet = ({ books = [book], continueReading = [], paidBooks = [] } = {}) => {
   api.get.mockImplementation((url) => {
+    if (url === "/books/paid") {
+      return Promise.resolve({ data: { count: paidBooks.length, results: paidBooks } });
+    }
     if (url.startsWith("/books")) {
       return Promise.resolve({ data: { results: books } });
     }
@@ -45,6 +57,7 @@ const renderHome = () =>
           <Route path="/books/:id" element={<div>Detalle del libro</div>} />
           <Route path="/reader/:id" element={<div>Lector</div>} />
           <Route path="/login" element={<div>Vista de login</div>} />
+          <Route path="/registro" element={<div>Vista de registro</div>} />
           <Route path="/plans" element={<div>Vista de planes</div>} />
           <Route path="/dashboard" element={<div>Vista de dashboard</div>} />
         </Routes>
@@ -128,5 +141,65 @@ describe("Home", () => {
     renderHome();
 
     expect(await screen.findByRole("button", { name: /ingresar/i })).toBeInTheDocument();
+  });
+
+  it("muestra el botón 'Crear cuenta' cuando no hay sesión iniciada, y navega a /registro", async () => {
+    mockApiGet();
+    const user = userEvent.setup();
+
+    renderHome();
+
+    const crearCuenta = await screen.findByRole("button", { name: /crear cuenta/i });
+    expect(crearCuenta).toBeInTheDocument();
+
+    await user.click(crearCuenta);
+    expect(await screen.findByText("Vista de registro")).toBeInTheDocument();
+  });
+
+  it("no muestra 'Ingresar' ni 'Crear cuenta' cuando hay sesión iniciada", async () => {
+    const base64url = (obj) =>
+      btoa(JSON.stringify(obj)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const futureToken = () =>
+      `${base64url({ alg: "HS256" })}.${base64url({ exp: Math.floor(Date.now() / 1000) + 3600 })}.signature`;
+    localStorage.setItem("token", futureToken());
+    localStorage.setItem("user", JSON.stringify({ name: "Sebastián" }));
+    mockApiGet();
+
+    renderHome();
+
+    await screen.findByText("Martín Rivas");
+    expect(screen.queryByRole("button", { name: /ingresar/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /crear cuenta/i })).not.toBeInTheDocument();
+  });
+
+  it("no muestra 'Autores nacionales' si GET /books/paid no trae resultados", async () => {
+    mockApiGet();
+
+    renderHome();
+
+    await screen.findByText("Martín Rivas");
+    expect(screen.queryByText("Autores nacionales")).not.toBeInTheDocument();
+  });
+
+  it("muestra 'Autores nacionales' con los libros de GET /books/paid", async () => {
+    mockApiGet({ paidBooks: [paidBook] });
+
+    renderHome();
+
+    expect(await screen.findByText("Autores nacionales")).toBeInTheDocument();
+    expect(screen.getByText("Obra de un autor nacional")).toBeInTheDocument();
+    expect(screen.getByText("Valentina Reyes")).toBeInTheDocument();
+    expect(screen.getByText("SUSCRIPCIÓN")).toBeInTheDocument();
+    expect(api.get).toHaveBeenCalledWith("/books/paid");
+  });
+
+  it("navega al detalle correcto al hacer clic en un libro de 'Autores nacionales'", async () => {
+    mockApiGet({ paidBooks: [paidBook] });
+    const user = userEvent.setup();
+
+    renderHome();
+    await user.click(await screen.findByText("Obra de un autor nacional"));
+
+    expect(await screen.findByText("Detalle del libro")).toBeInTheDocument();
   });
 });
