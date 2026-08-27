@@ -4,6 +4,7 @@ import api from "../services/api.js";
 import AppNavbar from "../components/AppNavbar.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import RequireRole from "../components/RequireRole.jsx";
+import AdminSubNav from "../components/AdminSubNav.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const AdminPanel = () => {
@@ -79,6 +80,7 @@ const AdminPanel = () => {
     <RequireRole role="admin">
       <div className="bc-page">
         <AppNavbar />
+        <AdminSubNav />
 
         <div className="px-3 py-3">
           <h2 className="bc-section-title">Panel de administración</h2>

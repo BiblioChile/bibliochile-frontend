@@ -43,6 +43,7 @@ const renderPage = () =>
       <AuthProvider>
         <Routes>
           <Route path="/admin/autores" element={<AdminAutores />} />
+          <Route path="/admin/panel" element={<div>Vista de panel admin</div>} />
           <Route path="/login" element={<div>Vista de login</div>} />
           <Route path="/" element={<div>Catálogo</div>} />
         </Routes>
