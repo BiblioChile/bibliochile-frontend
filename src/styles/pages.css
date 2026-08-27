@@ -368,14 +368,18 @@
 .bc-dj-title {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #2a2a4a;
+  color: var(--bg);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
+/* Antes usaban grises claros (#555/#888) sobre el fondo crema #f0ede5 —
+   contraste insuficiente, difícil de leer (env/prompt_batch_ux.md, punto 4).
+   Se mantiene el fondo y se usa el azul profundo de la paleta (--bg) en vez
+   de gris, igual que .bc-dj-title. */
 .bc-dj-text {
   font-size: 0.72rem;
-  color: #555;
+  color: var(--bg);
   line-height: 1.6;
 }
 
@@ -385,9 +389,36 @@
   gap: 0.75rem;
 }
 
+.bc-dj-error {
+  font-size: 0.7rem;
+  color: var(--wine);
+  font-weight: 600;
+  margin-top: -0.4rem;
+}
+
 .bc-dj-meta {
   font-size: 0.65rem;
-  color: #888;
+  color: var(--bg);
+  opacity: 0.75;
+}
+
+/* Estado de postulación a autor en DashboardPasajero.jsx — antes de
+   env/prompt_batch_ux.md (puntos 2, 5, 6) no existía ninguna señal visual
+   de una solicitud pendiente o rechazada. */
+.bc-author-status-pendiente {
+  background: rgba(201,169,110,0.12);
+  border: 1px solid rgba(201,169,110,0.35);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  color: var(--ivory);
+}
+
+.bc-author-status-rechazado {
+  background: rgba(123,16,35,0.1);
+  border: 1px solid rgba(123,16,35,0.3);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  color: var(--ivory);
 }
 
 /* ===== SUBIR OBRA (autor) ===== */
