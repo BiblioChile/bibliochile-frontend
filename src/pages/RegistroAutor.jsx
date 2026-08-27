@@ -39,6 +39,7 @@ const RegistroAutor = () => {
   const [declaracionAceptada, setDeclaracionAceptada] = useState(false);
   const [error, setError] = useState(null);
   const [rutError, setRutError] = useState(null);
+  const [declaracionError, setDeclaracionError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -63,6 +64,15 @@ const RegistroAutor = () => {
       setRutError("RUT inválido. Ingresa tu RUT con puntos y guión (ej: 12.345.678-9)");
       return;
     }
+
+    // Antes, el botón simplemente quedaba disabled sin explicar por qué —
+    // el formulario "no avanzaba" sin ningún mensaje visible (env/prompt_batch_ux.md,
+    // punto 3). Ahora el botón siempre es clickeable y esto da el motivo.
+    if (!declaracionAceptada) {
+      setDeclaracionError("Debes aceptar la declaración jurada para continuar.");
+      return;
+    }
+    setDeclaracionError(null);
 
     setLoading(true);
     try {
@@ -131,11 +141,17 @@ const RegistroAutor = () => {
               <Form.Check
                 type="checkbox"
                 checked={declaracionAceptada}
-                onChange={(e) => setDeclaracionAceptada(e.target.checked)}
+                onChange={(e) => {
+                  setDeclaracionAceptada(e.target.checked);
+                  if (e.target.checked) setDeclaracionError(null);
+                }}
                 label="Acepto y firmo digitalmente esta declaración jurada de autoría *"
-                required
+                isInvalid={!!declaracionError}
               />
             </Form.Group>
+            {declaracionError && (
+              <div className="bc-dj-error">{declaracionError}</div>
+            )}
             <div className="bc-dj-meta">Se registrará: RUT · Nombre · Fecha y hora de firma</div>
           </div>
 
@@ -143,7 +159,7 @@ const RegistroAutor = () => {
 
           <button
             type="submit"
-            disabled={loading || !declaracionAceptada}
+            disabled={loading}
             className="bc-btn-primary w-100 py-3 mt-2"
           >
             {loading ? "Enviando..." : "Enviar solicitud de registro"}

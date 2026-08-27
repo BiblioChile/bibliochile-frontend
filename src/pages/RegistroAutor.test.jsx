@@ -45,16 +45,21 @@ describe("RegistroAutor", () => {
     expect(await screen.findByText("Vista de login")).toBeInTheDocument();
   });
 
-  it("el botón de enviar está deshabilitado hasta aceptar la declaración jurada", async () => {
+  it("muestra un mensaje visible junto al checkbox si se intenta enviar sin aceptar la declaración jurada", async () => {
     login();
+    const user = userEvent.setup();
     renderPage();
 
-    expect(await screen.findByRole("button", { name: /enviar solicitud de registro/i })).toBeDisabled();
+    // Antes el botón simplemente quedaba disabled, sin ningún mensaje —
+    // ahora es clickeable y explica el motivo (env/prompt_batch_ux.md, punto 3).
+    await user.type(await screen.findByLabelText(/^rut/i), "12.345.678-5");
+    await user.click(screen.getByRole("button", { name: /enviar solicitud de registro/i }));
 
-    const user = userEvent.setup();
+    expect(await screen.findByText(/debes aceptar la declaración jurada/i)).toBeInTheDocument();
+    expect(api.post).not.toHaveBeenCalled();
+
     await user.click(screen.getByRole("checkbox"));
-
-    expect(screen.getByRole("button", { name: /enviar solicitud de registro/i })).toBeEnabled();
+    expect(screen.queryByText(/debes aceptar la declaración jurada/i)).not.toBeInTheDocument();
   });
 
   it("muestra error si el RUT es inválido y no envía el formulario", async () => {
