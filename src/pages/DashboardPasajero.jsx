@@ -9,6 +9,14 @@ import { LogoutIcon } from "../components/icons.jsx";
 import api from "../services/api.js";
 import { fetchContinueReading } from "../utils/progress.js";
 
+// Reflejado en la UI cuando GET /authors/me trae un rejectionReason real —
+// antes rejection_reason/rejection_note se guardaban en el backend pero
+// nunca se mostraban en ningún lado (env/prompt_batch_ux.md, punto 5).
+const REJECTION_REASON_LABEL = {
+  problema_sistema: "Problema con el sistema",
+  otro: "Otro motivo",
+};
+
 const planLabel = (name) => (name === "mensual" ? "Plan Mensual" : "Plan Anual");
 const formatDate = (date) =>
   new Date(date).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
@@ -27,6 +35,8 @@ const DashboardPasajero = () => {
   const [historyLoading, setHistoryLoading] = useState(true);
   const [subscription, setSubscription] = useState(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(true);
+  const [authorStatus, setAuthorStatus] = useState(null);
+  const [authorStatusLoading, setAuthorStatusLoading] = useState(true);
   // Distingue un logout explícito (botón "Cerrar sesión") de quedar sin sesión
   // por otra vía (token expirado, acceso directo a /dashboard). Sin esta bandera,
   // el guard de abajo ve isAuthenticated en false en el mismo render batcheado
@@ -64,6 +74,28 @@ const DashboardPasajero = () => {
     };
     loadSubscription();
   }, [token]);
+
+  useEffect(() => {
+    // Solo tiene sentido consultar el estado de postulación a autor para
+    // quien todavía es "pasajero" — un usuario ya "autor"/"admin" no ve
+    // esta sección de todos modos (ver más abajo).
+    if (!token || user?.role !== "pasajero") {
+      setAuthorStatusLoading(false);
+      return;
+    }
+
+    const loadAuthorStatus = async () => {
+      try {
+        const response = await api.get("/authors/me");
+        setAuthorStatus(response.data);
+      } catch {
+        setAuthorStatus(null);
+      } finally {
+        setAuthorStatusLoading(false);
+      }
+    };
+    loadAuthorStatus();
+  }, [token, user?.role]);
 
   if (!authLoading && !isAuthenticated && !loggingOut) {
     navigate("/login");
@@ -127,6 +159,53 @@ const DashboardPasajero = () => {
             >
               Elegir un plan
             </button>
+          </div>
+        )}
+
+        {user?.role === "pasajero" && !authorStatusLoading && (
+          <div className="mb-3">
+            {/* Sin postulación previa (o no se pudo consultar el estado real):
+                mismo botón de siempre. */}
+            {!authorStatus?.hasApplication && (
+              <button
+                className="bc-btn-secondary w-100"
+                onClick={() => navigate("/autor/registro")}
+              >
+                Registrarme como autor
+              </button>
+            )}
+
+            {/* Pendiente: antes volvía a mostrar el botón de siempre, dejando
+                reenviar el formulario mientras ya hay una solicitud en curso
+                (env/prompt_batch_ux.md, punto 2). */}
+            {authorStatus?.hasApplication && authorStatus.status === "pendiente" && (
+              <p className="bc-author-status-pendiente" style={{ fontSize: "0.82rem" }}>
+                Tu solicitud de autor está pendiente de aprobación.
+              </p>
+            )}
+
+            {/* Rechazado: antes el perfil no mostraba ninguna señal de que
+                alguna vez postuló (env/prompt_batch_ux.md, puntos 5 y 6) —
+                ahora expone el motivo real guardado por el admin. Sin botón
+                "Volver a postular": registerAuthor() en el backend rechaza
+                con 409 a cualquiera que ya tenga un Author (sin mirar el
+                status), así que hoy un rechazo es definitivo — ofrecer un
+                botón que siempre fallaría sería peor que no ofrecer nada.
+                Ver env/resultado_prompt_batch_ux.md. */}
+            {authorStatus?.hasApplication && authorStatus.status === "rechazado" && (
+              <div className="bc-author-status-rechazado">
+                <p style={{ fontSize: "0.82rem", marginBottom: "0.3rem" }}>
+                  Tu solicitud de autor fue rechazada.
+                  {" "}
+                  Motivo: {REJECTION_REASON_LABEL[authorStatus.rejectionReason] ?? "No especificado"}.
+                </p>
+                {authorStatus.rejectionNote && (
+                  <p style={{ fontSize: "0.78rem", color: "var(--ivory-dim)" }}>
+                    Nota del administrador: {authorStatus.rejectionNote}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         )}
       </Container>

@@ -12,9 +12,9 @@ const base64url = (obj) =>
 const futureToken = () =>
   `${base64url({ alg: "HS256" })}.${base64url({ exp: Math.floor(Date.now() / 1000) + 3600 })}.signature`;
 
-const login = () => {
+const login = (role) => {
   localStorage.setItem("token", futureToken());
-  localStorage.setItem("user", JSON.stringify({ name: "Sebastián" }));
+  localStorage.setItem("user", JSON.stringify(role ? { name: "Sebastián", role } : { name: "Sebastián" }));
 };
 
 const renderAt = (path) =>
@@ -54,7 +54,8 @@ describe("BottomNav", () => {
     expect(screen.getByText("Planes").closest(".bc-nav-item")).toHaveClass("active");
   });
 
-  it("marca 'Perfil' como activo en /dashboard", () => {
+  it("marca 'Perfil' como activo en /dashboard con sesión de rol pasajero", () => {
+    login("pasajero");
     renderAt("/dashboard");
 
     expect(screen.getByText("Perfil").closest(".bc-nav-item")).toHaveClass("active");
@@ -95,6 +96,58 @@ describe("BottomNav", () => {
     await user.click(screen.getByText("Perfil"));
 
     expect(await screen.findByText("Vista de dashboard")).toBeInTheDocument();
+  });
+
+  it("marca 'Perfil' como activo en /autor/dashboard con rol autor", () => {
+    login("autor");
+    renderAt("/autor/dashboard");
+
+    expect(screen.getByText("Perfil").closest(".bc-nav-item")).toHaveClass("active");
+  });
+
+  it("marca 'Perfil' como activo en /admin/panel con rol admin", () => {
+    login("admin");
+    renderAt("/admin/panel");
+
+    expect(screen.getByText("Perfil").closest(".bc-nav-item")).toHaveClass("active");
+  });
+
+  it("lleva 'Perfil' a /autor/dashboard con sesión de rol autor", async () => {
+    login("autor");
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<BottomNav />} />
+            <Route path="/autor/dashboard" element={<div>Vista de dashboard autor</div>} />
+          </Routes>
+        </AuthProvider>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByText("Perfil"));
+
+    expect(await screen.findByText("Vista de dashboard autor")).toBeInTheDocument();
+  });
+
+  it("lleva 'Perfil' a /admin/panel con sesión de rol admin", async () => {
+    login("admin");
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<BottomNav />} />
+            <Route path="/admin/panel" element={<div>Vista de panel admin</div>} />
+          </Routes>
+        </AuthProvider>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByText("Perfil"));
+
+    expect(await screen.findByText("Vista de panel admin")).toBeInTheDocument();
   });
 
   it("navega a Planes al hacer clic", async () => {

@@ -353,3 +353,292 @@
   color: var(--ivory-dim);
   text-align: center;
 }
+
+/* Declaración jurada — RegistroAutor.jsx */
+.bc-dj-box {
+  background: #f0ede5;
+  border: 1.5px solid #d0ccc4;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bc-dj-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--bg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Antes usaban grises claros (#555/#888) sobre el fondo crema #f0ede5 —
+   contraste insuficiente, difícil de leer (env/prompt_batch_ux.md, punto 4).
+   Se mantiene el fondo y se usa el azul profundo de la paleta (--bg) en vez
+   de gris, igual que .bc-dj-title. */
+.bc-dj-text {
+  font-size: 0.72rem;
+  color: var(--bg);
+  line-height: 1.6;
+}
+
+.bc-dj-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.bc-dj-error {
+  font-size: 0.7rem;
+  color: var(--wine);
+  font-weight: 600;
+  margin-top: -0.4rem;
+}
+
+.bc-dj-meta {
+  font-size: 0.65rem;
+  color: var(--bg);
+  opacity: 0.75;
+}
+
+/* Estado de postulación a autor en DashboardPasajero.jsx — antes de
+   env/prompt_batch_ux.md (puntos 2, 5, 6) no existía ninguna señal visual
+   de una solicitud pendiente o rechazada. */
+.bc-author-status-pendiente {
+  background: rgba(201,169,110,0.12);
+  border: 1px solid rgba(201,169,110,0.35);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  color: var(--ivory);
+}
+
+.bc-author-status-rechazado {
+  background: rgba(123,16,35,0.1);
+  border: 1px solid rgba(123,16,35,0.3);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  color: var(--ivory);
+}
+
+/* ===== SUBIR OBRA (autor) ===== */
+.bc-upload-zone {
+  border: 2px dashed rgba(247,244,236,0.25);
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bc-upload-formats {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bc-format-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(247,244,236,0.1);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
+.bc-validation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bc-validation-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+}
+
+.bc-val-ok {
+  color: var(--gold);
+}
+
+.bc-val-err {
+  color: var(--wine);
+}
+
+/* ===== LOG / AUDIT CARD ===== */
+.bc-log-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bc-log-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ivory-dim);
+}
+
+.bc-log-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.bc-log-key {
+  color: var(--ivory-dim);
+}
+
+.bc-log-val {
+  color: var(--ivory);
+  font-weight: 600;
+}
+
+/* ===== ESTADISTICAS AUTOR ===== */
+.bc-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+
+.bc-metric-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 0.9rem 0.6rem;
+  text-align: center;
+}
+
+.bc-metric-card.bc-metric-wine {
+  background-color: var(--wine);
+}
+
+.bc-metric-val {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ivory);
+}
+
+.bc-metric-label {
+  font-size: 0.62rem;
+  color: var(--ivory-dim);
+  margin-top: 0.2rem;
+}
+
+.bc-obra-stat-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.bc-obra-stat-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ivory);
+}
+
+.bc-obra-stat-genre {
+  font-size: 0.68rem;
+  color: var(--ivory-dim);
+  margin-bottom: 0.6rem;
+}
+
+.bc-obra-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+
+/* ===== ADMIN ===== */
+.bc-badge-rejected {
+  background-color: rgba(123,16,35,0.25) !important;
+  color: var(--wine) !important;
+}
+
+.bc-btn-sm {
+  font-size: 0.72rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+}
+
+.bc-btn-sm.bc-approve {
+  background-color: var(--gold);
+  color: var(--bg);
+}
+
+.bc-btn-sm.bc-danger {
+  background-color: transparent;
+  border: 1px solid var(--wine);
+  color: var(--wine);
+}
+
+.bc-author-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bc-author-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bc-author-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ivory);
+}
+
+.bc-author-rut {
+  font-size: 0.68rem;
+  color: var(--ivory-dim);
+}
+
+.bc-author-meta-row {
+  font-size: 0.75rem;
+  color: var(--ivory-dim);
+}
+
+.bc-author-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.bc-catalog-list,
+.bc-qr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.bc-catalog-item,
+.bc-qr-item {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}

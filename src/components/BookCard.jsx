@@ -1,8 +1,12 @@
 import { Card, Badge, Row, Col } from "react-bootstrap";
 
-// Tarjeta de libro reusada en el catálogo, "Continuar leyendo" y el
-// historial de lectura del dashboard. Si se pasa `progress`, muestra la
-// barra de avance en vez del badge "GRATIS".
+// Tarjeta de libro reusada en el catálogo gratuito, el catálogo de pago
+// (GET /books/paid), "Continuar leyendo" y el historial de lectura del
+// dashboard. Si se pasa `progress`, muestra la barra de avance en vez del
+// badge. El badge en sí refleja `book.is_free` real — antes decía "GRATIS"
+// fijo sin mirar el dato, lo cual era inofensivo mientras BookCard solo
+// recibía libros gratuitos, pero quedó mal en cuanto empezó a reusarse
+// también para libros de pago.
 const BookCard = ({ book, onClick, progress }) => {
   return (
     <Card className="bc-card" onClick={onClick}>
@@ -26,7 +30,11 @@ const BookCard = ({ book, onClick, progress }) => {
             <div className="bc-card-title">{book.title}</div>
             <div className="bc-card-subtitle">{book.author}</div>
             {progress === undefined ? (
-              <Badge className="bc-badge-free mt-1">GRATIS</Badge>
+              book.is_free === false ? (
+                <Badge className="bc-badge-active mt-1">SUSCRIPCIÓN</Badge>
+              ) : (
+                <Badge className="bc-badge-free mt-1">GRATIS</Badge>
+              )
             ) : (
               <div className="d-flex align-items-center gap-2 mt-1">
                 <div className="bc-progress flex-grow-1">

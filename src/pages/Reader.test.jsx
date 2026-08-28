@@ -102,7 +102,7 @@ describe("Reader", () => {
     expect(api.post).toHaveBeenCalledWith(
       "/progress",
       expect.objectContaining({
-        bookId: "7",
+        bookId: 7,
         progressPercentage: expect.any(Number),
         lastPosition: expect.stringMatching(/%$/),
         anonymousUuid: expect.any(String),

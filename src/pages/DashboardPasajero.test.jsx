@@ -17,9 +17,9 @@ const base64url = (obj) =>
 const futureToken = () =>
   `${base64url({ alg: "HS256" })}.${base64url({ exp: Math.floor(Date.now() / 1000) + 3600 })}.signature`;
 
-const login = () => {
+const login = (role) => {
   localStorage.setItem("token", futureToken());
-  localStorage.setItem("user", JSON.stringify({ name: "Sebastián" }));
+  localStorage.setItem("user", JSON.stringify(role ? { name: "Sebastián", role } : { name: "Sebastián" }));
 };
 
 const historyItem = {
@@ -37,14 +37,17 @@ const activeSub = {
   max_rentals: 5,
 };
 
-// Responde según la URL: /progress trae el historial, /subscriptions/me el estado
-// de suscripción. Sin esto, un único mockResolvedValue no puede distinguirlas.
-const mockEndpoints = ({ history = [], subscription = inactiveSub } = {}) => {
-  api.get.mockImplementation((url) =>
-    url === "/subscriptions/me"
-      ? Promise.resolve({ data: subscription })
-      : Promise.resolve({ data: history })
-  );
+const noApplication = { hasApplication: false };
+
+// Responde según la URL: /progress trae el historial, /subscriptions/me el
+// estado de suscripción, /authors/me el estado de la postulación a autor.
+// Sin esto, un único mockResolvedValue no puede distinguirlas.
+const mockEndpoints = ({ history = [], subscription = inactiveSub, authorStatus = noApplication } = {}) => {
+  api.get.mockImplementation((url) => {
+    if (url === "/subscriptions/me") return Promise.resolve({ data: subscription });
+    if (url === "/authors/me") return Promise.resolve({ data: authorStatus });
+    return Promise.resolve({ data: history });
+  });
 };
 
 const renderDashboard = () =>
@@ -56,6 +59,7 @@ const renderDashboard = () =>
           <Route path="/login" element={<div>Vista de login</div>} />
           <Route path="/" element={<div>Catálogo</div>} />
           <Route path="/subscription" element={<div>Vista de suscripción</div>} />
+          <Route path="/autor/registro" element={<div>Vista de registro de autor</div>} />
           <Route path="/reader/:id" element={<div>Vista de lectura</div>} />
         </Routes>
       </AuthProvider>
@@ -170,6 +174,62 @@ describe("DashboardPasajero", () => {
     // el re-render y pisa esta navegación redirigiendo a /login en vez del catálogo.
     expect(await screen.findByText("Catálogo")).toBeInTheDocument();
     expect(localStorage.getItem("token")).toBeNull();
+  });
+
+  it("muestra 'Registrarme como autor' para un usuario con role 'pasajero'", async () => {
+    login("pasajero");
+    const user = userEvent.setup();
+    mockEndpoints();
+
+    renderDashboard();
+
+    const link = await screen.findByRole("button", { name: /registrarme como autor/i });
+    await user.click(link);
+
+    expect(await screen.findByText("Vista de registro de autor")).toBeInTheDocument();
+  });
+
+  it("no muestra 'Registrarme como autor' si el user no trae role 'pasajero' explícito", async () => {
+    login(); // sin role, formato viejo — no debe asumir pasajero
+    mockEndpoints();
+
+    renderDashboard();
+
+    await screen.findByText("Hola, Sebastián");
+    expect(screen.queryByRole("button", { name: /registrarme como autor/i })).not.toBeInTheDocument();
+    // Sin role "pasajero" explícito, tampoco debería consultarse /authors/me.
+    expect(api.get).not.toHaveBeenCalledWith("/authors/me");
+  });
+
+  it("muestra 'pendiente de aprobación' (sin botón para reenviar) cuando GET /authors/me trae una postulación pendiente", async () => {
+    login("pasajero");
+    mockEndpoints({ authorStatus: { hasApplication: true, status: "pendiente" } });
+
+    renderDashboard();
+
+    expect(
+      await screen.findByText("Tu solicitud de autor está pendiente de aprobación.")
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /registrarme como autor/i })).not.toBeInTheDocument();
+  });
+
+  it("muestra el motivo y la nota de rechazo cuando GET /authors/me trae una postulación rechazada", async () => {
+    login("pasajero");
+    mockEndpoints({
+      authorStatus: {
+        hasApplication: true,
+        status: "rechazado",
+        rejectionReason: "otro",
+        rejectionNote: "Faltan antecedentes",
+      },
+    });
+
+    renderDashboard();
+
+    expect(await screen.findByText(/tu solicitud de autor fue rechazada/i)).toBeInTheDocument();
+    expect(screen.getByText(/motivo: otro motivo/i)).toBeInTheDocument();
+    expect(screen.getByText(/faltan antecedentes/i)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /registrarme como autor/i })).not.toBeInTheDocument();
   });
 
   it("navega al catálogo al hacer clic en 'Inicio'", async () => {

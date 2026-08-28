@@ -14,6 +14,8 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [continueReading, setContinueReading] = useState([]);
+  const [paidBooks, setPaidBooks] = useState([]);
+  const [paidLoading, setPaidLoading] = useState(true);
   const { isAuthenticated, token } = useAuth();
   const navigate = useNavigate();
 
@@ -33,6 +35,22 @@ const Home = () => {
 
   useEffect(() => {
     fetchBooks();
+  }, []);
+
+  useEffect(() => {
+    const loadPaidBooks = async () => {
+      try {
+        const response = await api.get("/books/paid");
+        setPaidBooks(response.data.results);
+      } catch {
+        // Sección opcional (autores nacionales): si falla, simplemente no
+        // se muestra, sin romper el resto del catálogo gratuito.
+        setPaidBooks([]);
+      } finally {
+        setPaidLoading(false);
+      }
+    };
+    loadPaidBooks();
   }, []);
 
   useEffect(() => {
@@ -59,13 +77,23 @@ const Home = () => {
       {/* Navbar */}
       <AppNavbar>
         {!isAuthenticated && (
-          <Button
-            size="sm"
-            variant="outline-light"
-            onClick={() => navigate("/login")}
-          >
-            Ingresar
-          </Button>
+          <div className="d-flex align-items-center gap-2">
+            <Button
+              size="sm"
+              variant="link"
+              className="text-light text-decoration-none p-0"
+              onClick={() => navigate("/registro")}
+            >
+              Crear cuenta
+            </Button>
+            <Button
+              size="sm"
+              variant="outline-light"
+              onClick={() => navigate("/login")}
+            >
+              Ingresar
+            </Button>
+          </div>
         )}
       </AppNavbar>
 
@@ -131,6 +159,20 @@ const Home = () => {
           </div>
         )}
       </Container>
+
+      {/* Autores nacionales — catálogo de pago, GET /books/paid */}
+      {!paidLoading && paidBooks.length > 0 && (
+        <Container fluid className="px-3 pb-4">
+          <h2 className="bc-section-title">Autores nacionales</h2>
+          <div className="bc-catalog-scroll">
+            {paidBooks.map((book) => (
+              <div className="bc-catalog-item" key={book.id}>
+                <BookCard book={book} onClick={() => navigate(`/books/${book.id}`)} />
+              </div>
+            ))}
+          </div>
+        </Container>
+      )}
 
       <BottomNav />
     </div>
