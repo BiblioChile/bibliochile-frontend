@@ -32,7 +32,7 @@ const DashboardAutor = () => {
           <div className="bc-profile-header">
             <div className="bc-avatar">{initials(user?.name)}</div>
             <div className="flex-grow-1">
-              <h2 className="bc-section-title mb-0">Mi Dashboard</h2>
+              <h2 className="bc-section-title mb-0">Mi dashboard</h2>
               <p className="bc-books-label mb-0">Hola, {user?.name}</p>
             </div>
             <button
