@@ -68,6 +68,19 @@ describe("EstadisticasAutor", () => {
     expect(api.get).toHaveBeenCalledWith("/authors/me/stats");
   });
 
+  it("complementa los 4 números con un gráfico de barras de lectores y arriendos", async () => {
+    loginAsAutor();
+    api.get.mockResolvedValue({ data: stats });
+
+    renderPage();
+
+    // Los 4 números siguen ahí (el gráfico complementa, no reemplaza) —
+    // ya cubierto en el test de arriba. Acá solo se confirma que el
+    // gráfico nuevo se agregó, sin la métrica de progreso (% no es
+    // comparable con conteos en el mismo eje).
+    expect(await screen.findByText("Lectores y arriendos")).toBeInTheDocument();
+  });
+
   it("muestra un mensaje de error si la petición falla", async () => {
     loginAsAutor();
     api.get.mockRejectedValue(new Error("network error"));
