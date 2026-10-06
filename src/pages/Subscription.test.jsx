@@ -7,7 +7,7 @@ import Subscription from "./Subscription";
 import { AuthProvider } from "../context/AuthContext";
 
 vi.mock("../services/api.js", () => ({
-  default: { get: vi.fn(), post: vi.fn() },
+  default: { get: vi.fn(), post: vi.fn(), patch: vi.fn() },
 }));
 
 // Mismo helper que AuthContext.test.jsx para armar un JWT "falso" válido
@@ -95,8 +95,54 @@ describe("Subscription", () => {
     expect(await screen.findByText("ACTIVA")).toBeInTheDocument();
     expect(screen.getByText("Libros usados: 2 de 5")).toBeInTheDocument();
     expect(screen.getByText(/Vence el/)).toBeInTheDocument();
-    // No debería mostrar el selector de planes si ya hay una activa
+    // Con una activa, el selector reaparece como "Cambiar de plan"
+    // (aparece dos veces: el título de la sección y el botón)
     expect(screen.queryByText("Elige tu plan")).not.toBeInTheDocument();
+    expect(screen.getAllByText("Cambiar de plan").length).toBeGreaterThan(0);
+    // El plan actual (mensual) no se ofrece como opción de cambio — solo
+    // aparece una vez, en la card de "Estado actual" (no en la lista de
+    // planes seleccionables)
+    expect(screen.getAllByText("Plan Mensual")).toHaveLength(1);
+    expect(screen.getByText("Plan Anual")).toBeInTheDocument();
+  });
+
+  it("cambia de plan con PATCH /subscriptions al tener una suscripción activa", async () => {
+    login();
+    const user = userEvent.setup();
+    api.get.mockImplementation((url) =>
+      url === "/subscriptions/me"
+        ? Promise.resolve({ data: activeSub })
+        : Promise.resolve({ data: plans })
+    );
+    api.patch.mockResolvedValue({ data: {} });
+
+    renderSubscription();
+
+    await user.click(await screen.findByText("Plan Anual"));
+    await user.click(screen.getByRole("button", { name: "Cambiar de plan" }));
+
+    expect(api.patch).toHaveBeenCalledWith("/subscriptions", { planId: 2 });
+    expect(api.post).not.toHaveBeenCalled();
+  });
+
+  it("muestra el error del backend si el plan elegido ya no existe (404)", async () => {
+    login();
+    const user = userEvent.setup();
+    api.get.mockImplementation((url) =>
+      url === "/subscriptions/me"
+        ? Promise.resolve({ data: activeSub })
+        : Promise.resolve({ data: plans })
+    );
+    api.patch.mockRejectedValue({
+      response: { data: { message: "Plan no encontrado" } },
+    });
+
+    renderSubscription();
+
+    await user.click(await screen.findByText("Plan Anual"));
+    await user.click(screen.getByRole("button", { name: "Cambiar de plan" }));
+
+    expect(await screen.findByText("Plan no encontrado")).toBeInTheDocument();
   });
 
   it("muestra el mensaje de error si la petición falla", async () => {

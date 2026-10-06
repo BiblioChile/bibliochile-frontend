@@ -365,21 +365,28 @@
   gap: 0.75rem;
 }
 
-.bc-dj-title {
+/* El selector de color usa .bc-dj-box .bc-dj-* (no .bc-dj-* solo) + !important
+   a propósito: .bc-dj-box vive dentro de .bc-page, y
+   `.bc-page div { color: var(--ivory) !important; }` (index.css) tiene
+   especificidad (0,1,1) — más alta que una sola clase (0,1,0). Con los dos
+   !important, gana la especificidad más alta, así que un !important sobre
+   `.bc-dj-text` sola NO alcanza: hay que igualar o superar esa especificidad
+   también (acá con dos clases, (0,2,0)). Así quedó el fix de contraste
+   anterior (env/prompt_batch_ux.md, punto 4) sin efecto real en el
+   navegador pese a verse correcto en el código, y así se repitió el mismo
+   error en el primer intento de esta vuelta antes de revisar la
+   especificidad real (env/prompt_frontend_ajustes.md, punto 1). */
+.bc-dj-box .bc-dj-title {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--bg);
+  color: var(--bg) !important;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
-/* Antes usaban grises claros (#555/#888) sobre el fondo crema #f0ede5 —
-   contraste insuficiente, difícil de leer (env/prompt_batch_ux.md, punto 4).
-   Se mantiene el fondo y se usa el azul profundo de la paleta (--bg) en vez
-   de gris, igual que .bc-dj-title. */
-.bc-dj-text {
+.bc-dj-box .bc-dj-text {
   font-size: 0.72rem;
-  color: var(--bg);
+  color: var(--bg) !important;
   line-height: 1.6;
 }
 
@@ -389,16 +396,28 @@
   gap: 0.75rem;
 }
 
-.bc-dj-error {
+/* El label del checkbox lo arma Form.Check (React Bootstrap) como
+   <label class="form-check-label">, un elemento aparte de .bc-dj-text — no
+   basta con el fix de arriba, .bc-page div también lo alcanza a él (color
+   hereda) y necesita su propia regla con la misma especificidad reforzada. */
+.bc-dj-check-row .form-check-label {
+  color: var(--bg) !important;
+}
+
+/* Mismo problema que .bc-dj-title/.bc-dj-text: sin !important Y sin la
+   especificidad reforzada (.bc-dj-box .bc-dj-error, no .bc-dj-error sola),
+   .bc-page div le ganaba igual — el mensaje de error de la declaración
+   jurada se veía ivory en vez de wine. */
+.bc-dj-box .bc-dj-error {
   font-size: 0.7rem;
-  color: var(--wine);
+  color: var(--wine) !important;
   font-weight: 600;
   margin-top: -0.4rem;
 }
 
-.bc-dj-meta {
+.bc-dj-box .bc-dj-meta {
   font-size: 0.65rem;
-  color: var(--bg);
+  color: var(--bg) !important;
   opacity: 0.75;
 }
 

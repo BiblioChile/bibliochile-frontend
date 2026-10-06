@@ -44,16 +44,32 @@ const Subscription = () => {
     fetchData();
   }, [authLoading, isAuthenticated]);
 
+  const hasActiveSubscription = !!activeSubscription?.active;
+
   const handlePago = async () => {
     if (!selectedPlanId) return;
     setSubmitting(true);
     setSubmitError(null);
 
     try {
-      await api.post("/subscriptions", { planId: selectedPlanId });
-      await fetchData(); // refresca el estado actual tras contratar
+      // Con una suscripción activa, "contratar" es en realidad "cambiar de
+      // plan": PATCH /subscriptions cancela la vigente y activa la nueva de
+      // inmediato, sin prorrateo (env/prompt_cambio_plan_suscripcion.md).
+      // Único error a manejar aparte del genérico: 404 "Plan no encontrado"
+      // (plan eliminado entre que se cargó la lista y el clic) — el mensaje
+      // real del backend ya cubre ese caso, no hace falta un mensaje aparte.
+      if (hasActiveSubscription) {
+        await api.patch("/subscriptions", { planId: selectedPlanId });
+      } else {
+        await api.post("/subscriptions", { planId: selectedPlanId });
+      }
+      setSelectedPlanId(null);
+      await fetchData(); // refresca el estado actual tras contratar/cambiar
     } catch (err) {
-      setSubmitError(err.response?.data?.message ?? "Error al procesar el pago");
+      setSubmitError(
+        err.response?.data?.message ??
+          (hasActiveSubscription ? "Error al cambiar de plan" : "Error al procesar el pago")
+      );
     } finally {
       setSubmitting(false);
     }
@@ -107,48 +123,68 @@ const Subscription = () => {
               </div>
             )}
 
-            {/* Selector de planes — solo si no hay una suscripción activa,
-                ya que el backend rechaza con 409 cualquier intento de
-                contratar mientras exista una activa (no hay upgrade/downgrade) */}
-            {!activeSubscription?.active && (
-              <>
-                <div className="mb-3">
-                  <h3 className="bc-section-title" style={{ fontSize: "0.9rem" }}>
-                    Elige tu plan
-                  </h3>
-                  <div className="bc-plans-list">
-                    {plans.map((plan) => (
-                      <div
-                        key={plan.id}
-                        className={`bc-plan-card ${selectedPlanId === plan.id ? "selected" : ""}`}
-                        onClick={() => setSelectedPlanId(plan.id)}
-                      >
-                        <div>
-                          <div className="bc-plan-name">{planLabel(plan.name)}</div>
-                          <div className="bc-plan-detail">
-                            Hasta {plan.max_rentals} libros · {plan.duration_days} días
+            {/* Con una suscripción activa, el selector reaparece como
+                "Cambiar de plan" — antes esta sección desaparecía por
+                completo mientras hubiera una activa, así que no había forma
+                de pasar de mensual a anual (o viceversa) sin esperar a que
+                venciera (env/prompt_frontend_ajustes.md, punto 4). El plan
+                actual se excluye de las opciones: no tiene sentido
+                "cambiar" al mismo plan que ya se tiene. */}
+            {(() => {
+              const selectablePlans = hasActiveSubscription
+                ? plans.filter((plan) => plan.name !== activeSubscription.plan_name)
+                : plans;
+
+              return (
+                <>
+                  <div className="mb-3">
+                    <h3 className="bc-section-title" style={{ fontSize: "0.9rem" }}>
+                      {hasActiveSubscription ? "Cambiar de plan" : "Elige tu plan"}
+                    </h3>
+                    {hasActiveSubscription && (
+                      <p style={{ fontSize: "0.78rem", color: "var(--ivory-dim)" }}>
+                        Al cambiar, tu plan actual se cancela y el nuevo queda activo de
+                        inmediato — no se prorratean los días restantes.
+                      </p>
+                    )}
+                    <div className="bc-plans-list">
+                      {selectablePlans.map((plan) => (
+                        <div
+                          key={plan.id}
+                          className={`bc-plan-card ${selectedPlanId === plan.id ? "selected" : ""}`}
+                          onClick={() => setSelectedPlanId(plan.id)}
+                        >
+                          <div>
+                            <div className="bc-plan-name">{planLabel(plan.name)}</div>
+                            <div className="bc-plan-detail">
+                              Hasta {plan.max_rentals} libros · {plan.duration_days} días
+                            </div>
+                          </div>
+                          <div className="bc-plan-price">
+                            {formatPrice(plan.price)}{" "}
+                            <span>{plan.name === "mensual" ? "/mes" : "/año"}</span>
                           </div>
                         </div>
-                        <div className="bc-plan-price">
-                          {formatPrice(plan.price)}{" "}
-                          <span>{plan.name === "mensual" ? "/mes" : "/año"}</span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {submitError && <Alert variant="danger" style={{ fontSize: "0.82rem" }}>{submitError}</Alert>}
+                  {submitError && <Alert variant="danger" style={{ fontSize: "0.82rem" }}>{submitError}</Alert>}
 
-                <Button
-                  className="bc-btn-primary w-100 mb-2"
-                  disabled={!selectedPlanId || submitting}
-                  onClick={handlePago}
-                >
-                  {submitting ? "Procesando..." : "Pago"}
-                </Button>
-              </>
-            )}
+                  <Button
+                    className="bc-btn-primary w-100 mb-2"
+                    disabled={!selectedPlanId || submitting}
+                    onClick={handlePago}
+                  >
+                    {submitting
+                      ? "Procesando..."
+                      : hasActiveSubscription
+                        ? "Cambiar de plan"
+                        : "Pago"}
+                  </Button>
+                </>
+              );
+            })()}
           </>
         )}
       </Container>
